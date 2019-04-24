@@ -202,7 +202,7 @@ While BRF had better results in terms of area under PR (which was our selected m
 This emphasized that we were right in our choice of the area under PR curve as our measure in the case of class imbalance, indeed with a good threshold, the BRF model performs better.
 
 \subsection{Feature Engineering}
-For each example corresponding to a date, an hour, and a road segment we computed features that can be helpful for road accident prediction using the datasets. We created three types of features, weather features, features from the road segment and features from the date and time.
+For each example corresponding to a date, an hour, and a road segment we computed features that can be helpful for road accident prediction using the datasets we had collected. We created three types of features, weather features, features from the road segment and features from the date and time.
 
 For the weather features, we used data from the Historical Climate Dataset.
 In order to estimate the weather information at the position of the road segment, we use the mean of the weather information from all the surrounding weather stations at the date and hour of the example weighted by the inverse of the square of the distance between the station and the road segment.
@@ -227,6 +227,7 @@ We decided to make the features day of the year and hour of the day cyclic.
 Indeed, for example with the feature hour of the day, 23 hour is very close to 1 hour, but in the usual encoding, this does not appear to the machine learning algorithm.
 With cyclical encoding, we compute two features, the first one is the cosine of the original feature scaled between 0 and two pi, and the second one is the sine of the original feature scaled between 0 and two pi.
 In this form, the hours 23 and 1 appear close.
+In addition to these basic date features, we computed an approximation of the solar elevation using the hour of the day, the day of the year and the GPS coordinates. The solar elevation is the angle between the horizon and the sun. 
 
 \subsection{Choice of an evaluation metric}
 Usually, the accuracy is used to evaluate the performance of classification models, but with an imbalance dataset, this measure does not reflect the real predictive power of the model.
