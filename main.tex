@@ -29,26 +29,29 @@ $^*$ These authors have contributed equally
 \maketitle
 
 \begin{abstract}
+
 Road accidents are an important issue of our modern societies, responsible
-for millions of deaths and injuries every year. In this paper, we show how one can
-leverage open datasets from a city like Montreal, Canada, to create
-accident prediction models, using state-of-the-art big data analytics
-methods. Such models could be used in the context of road accident
-prevention, but also to identify key factors that can lead to a road
-accident, and eventually, help elaborate new policies. This study also
-explains how we dealt with the severe class imbalance inherent to accident
-prediction problems. In particular, we show
-how we implemented Balanced Random Forests, a variant of the Random Forest
-machine learning algorithm, into the Scala and Python APIs of Apache Spark.
-Our results show that our model identifies $13\%$ of data points as positives, 
-which allows it to detect $85\%$ of the road vehicle collisions. In addition,
-we identify the most import predictors of vehicle collisions for the area of 
-Montreal.
+for millions of deaths and injuries every year. 
+In this paper, we show how one can leverage open datasets from a city like
+Montreal, Canada, to create accident prediction models, using state-of-the-art
+big data analytics methods.
+Such models could be used in the context of road accident prevention, but also
+to identify key factors that can lead to a road accident, and eventually, help
+elaborate new policies.
+This study also explains how we dealt with the severe class imbalance inherent
+to accident prediction problems.
+In particular, we show how we implemented Balanced Random Forests, a variant
+of the Random Forest machine learning algorithm, into the Scala and Python
+APIs of Apache Spark.
+Our results show that our model identifies as positives the 13\% of the data
+points with the highest risk of collision which correspond to 85\% of 
+vehicle collisions.
+In addition, we identify the most import predictors of vehicle collisions for the area of Montreal.
 
 \end{abstract}
 
 \begin{IEEEkeywords}
-Road accidents prediction, classification, machine learning.
+Road accidents, Big data applications, Data analysis, Machine learning, Classification algorithms, Urban areas
 \end{IEEEkeywords}
 
 \section{Introduction}
