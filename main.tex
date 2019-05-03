@@ -40,8 +40,8 @@ explains how we dealt with the severe class imbalance inherent to accident
 prediction problems. In particular, we show
 how we implemented Balanced Random Forests, a variant of the Random Forest
 machine learning algorithm, into the Scala and Python APIs of Apache Spark.
-Our results show that our model identifies the $13\%$ of the combinations of 
-hours and road segments in which $85\%$ of vehicle collisions occur. In addition,
+Our results show that our model identifies $13\%$ of data points as positives, 
+which allows it to detect $85\%$ of the road vehicle collisions. In addition,
 we identify the most import predictors of vehicle collisions for the area of 
 Montreal.
 
@@ -94,7 +94,7 @@ The contributions of this paper include:
 \begin{itemize}
 \item A demonstration of how open datasets can be combined to obtain
 meaningful features for road accident prediction,
-\item A high-resolution road accident prediction model for the island of Montreal,
+\item A high spatial and temporal resolution road accident prediction model for the island of Montreal,
 \item A comparison of three algorithms dealing with data imbalance in the context of road accident prediction,
 \item The implementation of Balanced Random Forest~\cite{Chen2004} in Apache Spark for efficient distributed training.
 \end{itemize}
