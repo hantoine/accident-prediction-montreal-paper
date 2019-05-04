@@ -498,6 +498,23 @@ spark BRF            &          0.691 &           0.960 \\
 \end{center}
 \end{table}
 
+The figure~\ref{fig:test-brf-precision-recall} shows the precision recall curves obtained with both implementations of the Balanced Random Forests (BRF) and Random Forests (RF) algorithms. These pecision recall curves are obtained by computing the precision and the recall metrics when varying the threshold used by the model.
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[height=6cm, keepaspectratio]{figures/test_brf_pr.png}}
+\caption{Comparaison of implementations: Precision-recall curves}
+\label{fig:test-brf-precision-recall}
+\end{figure}
+
+The figure~\ref{fig:test-brf-roc} shows the Receiver operating characteristic (ROC) curves obtained with both implementations of the Balanced Random Forests (BRF) and Random Forests (RF) algorithms. These ROC curves are obtained by computing the recall and the false positive rate metrics when varying the
+threshold used by the model.
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[height=6cm, keepaspectratio]{figures/test_brf_roc.png}}
+\caption{Comparaison of implementations: ROC curves}
+\label{fig:test-brf-roc}
+\end{figure}
+
 \subsection{Vehicle collision prediction}
 
 Results were obtained by training the algorithms on the whole
@@ -509,7 +526,7 @@ dataset. The model was trained on the 4 previous years and used only data
 from these years. For example, the "count\_accident" feature contains only
 the count of accidents occurring from 2012 to 2016 on the road segment.
 
-Table~\ref{table:summary} presents the results obtained with the classical
+The table~\ref{table:summary} presents the results obtained with the classical
 Random Forest algorithm (RF), with the Balanced Random Forest algorithm (BRF), and with the XGBoost algorithm without under-sampling (XGB) on the test set.
 
 \begin{table}[htbp]
@@ -527,21 +544,19 @@ Area under the ROC curve &  0.916 &  0.918 &  0.909 \\
 \end{center}
 \end{table}
 
-Figure~\ref{fig:precision-recall} shows the precision recall curves of the three models. These pecision recall curves are obtained by computing the precision and the recall metrics when varying the
-threshold used by the model.
+The figure~\ref{fig:precision-recall} shows the precision recall curves of the three models.
 
 \begin{figure}[htbp]
 \centerline{\includegraphics[height=6cm, keepaspectratio]{figures/pr.png}}
-\caption{Precision-recall curves}
+\caption{Vehicle Collision Prediction: Precision-recall curves}
 \label{fig:precision-recall}
 \end{figure}
 
-Figure~\ref{fig:roc} shows the Receiver operating characteristic (ROC) curves of the three models. These ROC curves are obtained by computing the recall and the false positive rate metrics when varying the
-threshold used by the model.
+The figure~\ref{fig:roc} shows the Receiver operating characteristic (ROC) curves of the three models.
 
 \begin{figure}[htbp]
 \centerline{\includegraphics[height=6cm, keepaspectratio]{figures/roc.png}}
-\caption{Receiver operating characteristic (ROC) curves}
+\caption{Vehicle Collision Prediction: ROC curves}
 \label{fig:roc}
 \end{figure}
 
@@ -552,7 +567,7 @@ It achieves a recall of $82\%$ with a precision of $30\%$. and a false positive 
 With a
 feature importance of $67\%$, the number of accidents which occurred on the
 road segment during the previous years is clearly the most useful feature, which
-is not surprising. Figure~\ref{feature importances} presents the
+is not surprising. The figure~\ref{feature importances} presents the
 importance of the other features as reported by the Balanced Random Forest
 algorithm. As we can see, the next important feature is the temperature. 
 Then the day of the year, the cosine of the hour of the day, which separates day from night,
@@ -573,42 +588,34 @@ remove one of them.
 
 \section{Discussion}
 
-With an area under the ROC curve close to $92\%$, the overall results are good.
+With an area under the ROC curve of more than $90\%$, the overall results are good.
 However, they mostly rely on the count of previous accidents on the road segment. 
 This is not an issue for accident prediction, but it does not help to 
 understand why these roads are particularly dangerous. We believe that
-this features is even more useful because we do not have information
-about the average traffic volume for each road. Therefore, this features does
+this feature is even more useful because we do not have information
+about the average traffic volume for each road. Therefore, this feature does
 not only inform the machine learning algorithm about the dangerousness of a road
 segment but also indirectly about the number of vehicles using this road.
 
-\todo{talk about why area under PR is better when area under ROc is better}
-The results of the comparison of our implementation of BRF with the implementation in imbalanced-learn shows show that
+\todo{check use of times past or present we need to choose}
 
-The Balance Random Forests algorithm obtains slightly better results than the classical Random Forests algorithm, but the difference is not as high as we expected. Indeed, while on the mammography dataset the BRF algorithm obtained an improvement of close to $6\%$ of the area under the PR curve as compared to the RF algorithm, in our study BRF obtained only an improvement of $2\%$. We believe this is caused by the fact that negative examples are not so
-different from each other and the information they contain is well captured
-by a single random sub-sample. 
+As expected, we obtain similar results than the imbalanced-learn library with our implementation of the BRF algorithm. Surprinsigly, the BRF algorithm obtained lower areas under the precision-recall curve than the Random Forests algorithm for both implementations. The precision-recall curve explains it, the BRF algorithm has a better precision with high recall values, but a much lower precision with low recall values. For medical diagnosis and road vehicle collision prediction, we usually prefer to have a higher recall with a lower precision, so BRF is more suitable for these usecases. This shows that the measure of the area under the precision-recall curve is not enough to compare the perfomances of a model on given problem, it is necessary to look at the curve. 
 
-For our problem, both Random Forests and Balanced Random Forests obtained better results than XGBoost. The XGBoost algorithm is still interesting because it was much faster to train than Random Forests algorithms. This made the hyper-parameter tuning of the XGBoost algorithm easier and much faster. 
+For the road vehicle collision prediction, the Balance Random Forests algorithm obtains slightly better results than the classical Random Forests algorithm. However, the gain in prediction performance is small. We believe this is caused by the fact that negative examples are not so different from each other and the information they contain is well captured by a single random sub-sample. 
 
-We can see on the precision recall curves and on the ROC curves that the BRF algorithm is interesting when we prefer to have a high recall and a small precision than the contrary.
-Indeed, it obtains significantly better performances than the RF algorithm with a Recall higher than $50\%$ and a False positive rate higher than $5\%$ 
+The XGBoost algorithm obtains worse results than the two other algorithms. However, it is still interesting because it was much faster to train than Random Forests algorithms. This made the hyper-parameter tuning of the XGBoost algorithm easier and much faster. 
 
-We explained previously why the measure of the area under the curve is a better metric with data imbalance. However, we should be careful when using the precision measure
-on a dataset using a sample of the possible negative examples like it is usually
-the case in accident prediction. Indeed, the precision computed on the test
-set does not correspond to the precision we would obtain in production.
+Like on the mammography dataset, we observe that the BRF algorithm achieves better performances than Random Forests with high recall values, with lower recall values both random forests algorithms have similar performances.
+
+We explained previously why the measure of the precision and recall are better metric than the accuracy with data imbalance. However, we should be careful when using the precision measure on a dataset using a sample of the possible negative examples like it is usually the case in accident prediction. Indeed, the precision computed on the test set does not correspond to the precision we would obtain in production.
 If the sample of negative examples is representative of the population
 in production, the model will achieve the same false positive rate.
 Because we used a sample of the possible negative examples but all the 
-positive examples in the test set, there will be more cases of false positive
-in production for the same number of positives. As a consequence, the precision
-will be much lower in production.
+positive examples in the test set, there will be more cases of false positive in production for the same number of positives. As a consequence, the precision will be much lower.
 
 For these reason, we think the best measure to compare the performance of
 different studies in accident prediction is the area under the ROC curve.
-As opposed to the area under the precision-recall curve, it does not depends
-on the amount of sub-sampling done on the negative examples. 
+As opposed to the area under the precision-recall curve, it does not depends on the amount of sub-sampling done on the negative examples. 
 
 We believe our model could be useful to identify the most dangerous
 time and roads. Among more than 10 billions possible combination of
@@ -618,8 +625,7 @@ $85\%$ of road vehicle collisions happen.
 We believe better performances could be reached by providing more
 context information on where the road is located. However, even with more
 features and more data, we believe it is very difficult to reach an area under
-the ROC curve over 0.95 like for other machine learning problems because of the nature 
-of this problem. Accident prediction is a very hard machine learning problem 
+the ROC curve over 0.95 like for other machine learning problems. Accident prediction is a very hard machine learning problem 
 because even if the risk for an accident to occur is much higher than usual, it 
 does not mean an accident will happen. The occurrence of an accident also depends 
 on the driver abilities. We would need information on the drivers and the vehicle
