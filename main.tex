@@ -35,7 +35,7 @@ $^*$ These authors have contributed equally
 \begin{abstract}
 
 Road accidents are an important issue of our modern societies, responsible
-for millions \BJ{???: mais pas a Montreal (comme indiqu\'e dans le titre), un peu puzzling, peut etre clarifier mondial vs. local, plusieurs ann\'ees, ou sinon le cout pour SAAQ} of deaths and injuries every year. 
+for millions of deaths and injuries every year in the world. \BJ{???: mais pas a Montreal (comme indiqu\'e dans le titre), peut-etre plusieurs ann\'ees, ou sinon le cout pour SAAQ}
 In this paper, we show how one can leverage open data sets of a city like
 Montreal, Canada, to create accident prediction models, using state-of-the-art
 big data analytics.
@@ -469,16 +469,16 @@ the distance. We tried higher exponents, but the results were not as good.
 We used all the continuous weather information provided
 by the Historical Climate Dataset. In addition, we created a feature to use
 the observations of atmospheric phenomenon provided by the dataset.
-To create this feature, we first create a binary variable set to 1 if the
+To create this feature, we first created a binary variable set to 1 if the
 following phenomenons are observed during the hour at a given station:
 Freezing Rain, Freezing Drizzle, Snow, Snow Grains, Ice Crystals, Ice Pellets,
 Ice Pellet Showers, Snow Showers, Snow Pellets, Ice Fog, Blowing Snow, Freezing
 Fog. We selected these phenomenons because we think they increase the risk of
-accidents. Then we compute the exponential moving average of this binary
-variable over time for each station, to model the fact that
+accidents. Then we computed the exponential moving average of this binary
+variable over time for each station in order to model the fact that
 these phenomenons have an impact after they stop being observed and a greater
-impact when they are observed for a longer period of time\footnote{\url{https://github.com/big-data-lab-team/accident-prediction-montreal/blob/master/weather.py\#L186}}. We used the
-same method as for other weather information to get a value for a given 
+impact when they are observed for a longer period of time\footnote{\url{https://github.com/big-data-lab-team/accident-prediction-montreal/blob/master/weather.py\#L186}}.
+We used the same method as for other weather information to get a value for a given 
 GPS position from the values of the weather stations.
 
 For the features from the road segments, we were restricted by the limited
@@ -490,7 +490,7 @@ the dataset depending on their importance in the road network: we created a
 categorical feature from this information. For these two categorical
 features, we encoded them as suggested in The Elements of Statistical
 Learning~\cite{elementsofstat} in section 9.2.4, instead of using one-hot
-encoding which would create an exponential number of splits: we indexed the
+encoding which would create an exponential number of possible splits: we indexed the
 categorical variable ordered by the proportion of the examples belonging to
 the given category which are positive samples. This encoding guarantees 
 optimal splits on these categorical variables. Lastly, we added a
@@ -511,8 +511,6 @@ of the solar elevation using the hour of the day, the day of the year
 and the GPS coordinates\footnote{\url{https://github.com/big-data-lab-team/accident-prediction-montreal/blob/master/solar\_features.py}}. The solar elevation is the angle 
 between the horizon and the sun. We think it can be useful, because it is
 linked to the luminosity which should be relevant for road accident prediction.
-
-\TG{Check your usage of past and present tense in this section, make sure it is consistent.}
 
 \subsection{Identifying the most important features}
 
