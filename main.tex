@@ -1,4 +1,5 @@
 \documentclass[conference]{IEEEtran}
+
 \IEEEoverridecommandlockouts
 % The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
 \usepackage{cite}
@@ -10,10 +11,13 @@
 \usepackage[utf8]{inputenc}
 \usepackage[hidelinks]{hyperref}
 \usepackage{ulem}  % for \ulem
+\usepackage{xspace}
+
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \newcommand{\todo}[1]{\colorlet{saved}{.}\color{blue}#1\color{saved}}
 \newcommand{\TG}[1]{\colorlet{saved}{.}\color{orange}From Tristan: #1\color{saved}}
+\newcommand{\BJ}[1]{\noindent{\color{cyan}[\textsc{BJ:} #1]}\xspace}
 \newcommand{\english}[1]{\uwave{#1}}  % English needs to be revised: it's either unclear or incorrect
 \begin{document}
 
@@ -31,75 +35,119 @@ $^*$ These authors have contributed equally
 \begin{abstract}
 
 Road accidents are an important issue of our modern societies, responsible
-for millions of deaths and injuries every year. 
-In this paper, we show how one can leverage open datasets from a city like
+for millions \BJ{???: mais pas a Montreal (comme indiqu\'e dans le titre), un peu puzzling, peut etre clarifier mondial vs. local, plusieurs ann\'ees, ou sinon le cout pour SAAQ} of deaths and injuries every year. 
+In this paper, we show how one can leverage open data sets of a city like
 Montreal, Canada, to create accident prediction models, using state-of-the-art
-big data analytics methods.
+big data analytics \BJ{\sout{methods}}.
 Such models could be used in the context of road accident prevention, but also
-to identify key factors that can lead to a road accident, and eventually, help
+to identify key factors that can lead to a road accident, and \BJ{\sout{eventually} consequently}, help
 elaborate new policies.
-We tested various methods to deal with the severe class imbalance inherent
+
+We tested various \BJ{machine learning} methods to deal with the severe class imbalance inherent
 to accident prediction problems. In particular, we implemented the Balanced Random Forest algorithm, a variant
 of the Random Forest machine learning algorithm, into the Scala and Python
-APIs of Apache Spark \TG{Is the PR in?}.
-Our results show that our model identifies as positives 13\% of the data
+APIs of Apache Spark \TG{Is the PR in?} \BJ{Not sure the details of scala/Python are needed in the abstract}.
+
+\BJ{Experimental results show that our learning model} identifies as positives 13\% of the data
 points with the highest risk of collision, which corresponds to 85\% of 
 vehicle collisions.
-In addition, we identify the most import predictors of vehicle collisions for the area of Montreal: the count of accidents on the same road segment during previous years, the temperature, the day of the year, the hour and the visibility.
+In addition, we identify the most \BJ{important} predictors of vehicle collisions for the area of Montreal: the count of accidents on the same road segment during previous years, the temperature \BJ{hot or cold or both?}, the day of the year, the hour and the visibility.
 
 \end{abstract}
 
 \begin{IEEEkeywords}
-Road accidents, Big data applications, Data analysis, Machine learning, Classification algorithms, Urban areas
+Road accidents, Big data applications, Data analysis, Machine learning, Classification algorithms, Urban areas. \BJ{keywords in conference paper? check the template}
 \end{IEEEkeywords}
+
+% ------------------------
+% ------------------------
+% ------------------------
 
 \section{Introduction}
 
 The World Health Organization describes the road traffic system as the most
 complex and the most dangerous system with which people have to deal every
-day~\cite{Peden2004}. As a matter of fact, more than one million people
+day~\cite{Peden2004}. As a matter of fact, more than one million people \BJ{world? clarify, because title says Montreal do not expect numbers for the world???}
 die every year from car accidents and dozens of millions of people are
 injured. Even more importantly, the number of road accidents is forecast to
-continue rising in the coming years.
+continue rising in the coming years. \BJ{even in Canada??? I did check, does not seam to be true for Canada and several other developed countries.}
+
+% ------------------------
+% ------------------------
+% ------------------------
 
 \subsection{Big Data Analytics}
 
-In the last decade, Big Data Analytics has emerged as a set of techniques allowing data scientists to extract meaningful information from large amounts of complex and heterogeneous data. Though the concept of Big Data Analytics supposedly come from the 1990's, its emergence started around 2011 \cite{Gandomi2015}. Since then, the definition of Big Data has evolved rapidly. The definition of Big Data Analytics is not fixed, but the scientific community agree on its main characteristics: Volume (the data size is in the range of one terabyte or more), Variety (the data can be structured, unstructured or semi-structured) and Velocity (characterizing the data generation pace and/or fast data analysis). Some other dimensions of Big Data Analytics may include Veracity (relatively to the unreliability of data sources), Variability/Complexity (relatively to the ``variability of the data flow rates" and to the complexity of combining data from multiple sources) and Value (relatively to the value that can be extracted from the data analysis). The two main components of a Big Data Analytics project are the data management and the data analytics process \TG{I removed many quotation marks, there are too many} \cite{Gandomi2015}. While the data management is about how to gather and store data, data analytics encompass text, audio, video, social media and predictive analytics. Predictive analytics which is the core of this study allows one to uncover patterns and capture relationships in data \cite{Gandomi2015}. In the context of accident prediction, such techniques could provide insights on the conditions leading to an increased risk of road accidents that could then be used to develop traffic-related policies and prevention operations. 
+In the last decade, Big Data Analytics has emerged as a set of techniques allowing data scientists to extract meaningful information from large amounts of complex and heterogeneous data. Though the concept of Big Data Analytics supposedly come from the 1990's, its emergence started around 2011 \cite{Gandomi2015}. Since then, the definition of Big Data has evolved rapidly. The definition of Big Data Analytics is not fixed, but the scientific community agree on its main characteristics: Volume (the data size is in the range of one terabyte or more), Variety (the data can be structured, unstructured or semi-structured) and Velocity (characterizing the data generation pace and/or fast data analysis). Some other dimensions of Big Data Analytics may include Veracity (\BJ{\sout{relatively to the} }unreliability of data sources), Variability/Complexity (\BJ{\sout{relatively to the ``variability of the data flow rates" } i.e., variability with respect to the data flow rates} and to the complexity of combining data from multiple sources) and Value (\BJ{\sout{relatively to the value }}that can be extracted from the data analysis). The two main components of a Big Data Analytics project are the data management and the data analytics process \TG{I removed many quotation marks, there are too many} \cite{Gandomi2015}. While the data management is about how to gather and store data, data analytics encompass text, audio, video, social media and predictive analytics. Predictive analytics, which is the core of this study, allows one to uncover patterns and capture relationships in data \cite{Gandomi2015}. In the context of accident prediction, such techniques could provide insights on the conditions leading to an increased risk of road accidents\BJ{, which in return, \sout{that}} could \BJ{\sout{then}} be used to develop traffic-related policies and prevention operations. 
 
 \TG{This section is ok, but it is quite boilerplate. It is not a very powerful way to start
-an introduction. People know about this stuff. I would summarize it in 1 or 2 sentences merged in the first paragraph.}
+an introduction. People know about this stuff. I would summarize it in 1 or 2 sentences merged in the first paragraph.} \BJ{I agree with Tristan: Introduction = one section for motivation/general background + one section for your project description and very high level related work + your contributions + plan of the paper}
 
-\subsection{The Open Data movement}
+% ------------------------
+% ------------------------
+% ------------------------
 
-Governments, states, province and municipalities collect and manage data for their internal operations. In the last decade, the open data movement has emerged. This movement encourages governments to make the data they collect available to the public as open data.
+\subsection{Open Data Trend}
+
+Governments, states, province and municipalities collect and manage data for their internal operations. In the last decade, the open data \BJ{\sout{movement}trend} has emerged. This \BJ{\sout{movement}trend} encourages governments to make the data they collect available to the public as open data.
 Open Data is defined as ``structured data that is machine-readable, freely shared, used and built on without restrictions"~\cite{opendata101}. Open data should be easily accessible and published under terms that permit re-use and redistribution by anyone and for any purpose.
+
 The open data philosophy is the equivalent of the open source philosophy but for data.
-This movement is made possible by the progress of information technology which allows to share large amounts of data easily. In 2009, Canada, USA, UK and New Zealand, announced new initiative towards opening up public information. The Government of Canada launched its first-generation of the Open Data Portal in 2011~\cite{opendata101}. Several public datasets are made available on this portal. Montreal is also taking part in the open data movement since 2012.
+This \BJ{\sout{movement}trend} is made possible by the progress of information technology which allows \BJ{\sout{to share} the sharing of} large amounts of data easily. In 2009, Canada, USA, UK and New Zealand, announced new initiative towards opening up public information. The Government of Canada launched its first-generation of the Open Data Portal in 2011~\cite{opendata101}. Several public data sets are made available on this portal. Montreal is also taking part in the open data \BJ{\sout{movement} trend} since 2012.
 
 \TG{This is very good content for the intro, because it is quite specific to the study. The writing is a bit chopy and could be smoothened.}
 
-\subsection{High-resolution road vehicle collision prediction}
-With the progression of the open data initiative, governments and municipalities are publishing increasing quantities of data. At the same time, the recent progresses in Big Data Analytics have facilitated the processing of large data volumes. This makes it possible to build efficient data models for the study of road accidents.
+% ------------------------
+% ------------------------
+% ------------------------
 
-An article\protect\footnote{\url{https://bit.ly/2rjLFmn}} from the website ``Medium" presents a study of road accident prediction in the state of Utah with apparent good performances. This article has inspired us to try using public datasets to build a machine-learning model for road vehicle collision prediction. We used datasets provided by the city of Montreal and the government of Canada as part of their open data initiative. As compared to this article, we have a smaller study area, the island of Montreal, but a higher prediction resolution. Indeed, the size and precision of our datasets made it possible to predict the occurrence of an accident during an hour on road segments defined by road intersections.
+\subsection{High-Resolution Road Vehicle Collision Prediction}
 
-Road vehicle collision prediction can be seen either as a regression problem: predicting the risk of accident, which can have multiple definition, or as a binary classification problem: predicting if an accident will occur or not. We choose to see it as a classification problem because this simpler approach makes it easier to interpret and compare results. Moreover, classification models also output a probability measure which can be seen as the risk of accident.
+With the progression of the open data initiative, governments and municipalities are publishing \BJ{\sout{increasing quantities of} more and more} data. At the same time, the recent progresses in Big Data Analytics have facilitated the processing of large data volumes. This makes it possible to build efficient data models for the study of road accidents.
+
+\BJ{I suggest not to restrict to that paper, even if it was your starting point, as other initiatives exists for predicting/anticipating car collision. Maybe ??? I would start this way //
+Several initiatives have been launched over the last few years in order to design tools in order to predict accidents. 
+On the one hand, there are now several cell phone applications which look at the driver behavior and attempt to anticipate accidents (refs), the trend of "pay as you drive" of several insurance company (e.g., \cite{tse16}), ...}
+
+An article\protect\footnote{\url{https://bit.ly/2rjLFmn}} from the website ``Medium" presents a study of road accident prediction in the state of Utah with apparent good performances. \BJ{Try to avoid footnote in papers, especially for references (put all of them together at the end) not very much the habit in North America.  } This article has inspired us to try using public datasets to build a machine-learning model for road vehicle collision prediction. We used datasets provided by the city of Montreal and the government of Canada as part of their open data initiative. As compared to this article, we have a smaller study area, the island of Montreal, but a higher prediction resolution. Indeed, the size and precision of our datasets made it possible to predict the occurrence of an accident during an hour on road segments defined by road intersections.
+
+Road vehicle collision prediction can be seen either as a regression problem: predicting the risk of accident, which can have multiple definition, or as a binary classification problem: predicting if an accident will occur or not. 
+We chose to see this as a classification problem because this simpler approach facilitates the interpretation and comparison of results.
+Moreover, classification models also output a probability measure which can be seen as the risk of accident.
 
 \TG{This is very good in the intro}
 
+% ------------------------
+% ------------------------
+% ------------------------
+
 \subsection{Apache Spark}
 
-The size and complexity of our dataset required us to use Big Data Analytics methods and tools. In particular, we leveraged the Apache Spark\cite{spark} big data framework. The Apache Spark project has been created at the University of California, Berkeley, in 2009. At this time, many specialized "cluster programming models" were created to deal with diverse Big Data tasks like answering SQL queries, machine learning and graph analysis\cite{spark}. Those models were not necessary thought to work together and required a lot of code and expertise to be combined. Originally based on the programming model "Map Reduce"\cite{mapreduce}, Spark's programming model also introduced a new distributed collection called "Resilient Distributed Datasets" or "RDDs", which allows to create a unified Big Data engine. As a matter of fact, Spark programming model allows to run the "same optimization as specialized engines but using it as libraries" to easily and more efficiently compose them in faster multitask applications. After its release in 2010, Apache Spark rapidly became "the most active open-source project for Big Data"\cite{spark}. As a consequence, it benefits from a wide community and offers its Application Programming Interface (API) in the Java, Scala, R and Python programming languages. 
+The size and complexity of our \BJ{???} dataset required us to use Big Data Analytics methods and tools. In particular, we leveraged the Apache Spark\cite{spark} big data framework. The Apache Spark project has been created at the University of California, Berkeley, in 2009. 
+At this time, many specialized "cluster programming models" were created to deal with diverse Big Data tasks like answering SQL queries, machine learning and graph analysis\cite{spark}. 
+Those models were not necessary thought to work together and required many lines of codes and expertise to be combined. 
+Originally based on the programming model "Map Reduce"\cite{mapreduce}, Spark's programming model also introduced a new distributed collection called "Resilient Distributed Data sets" or "RDDs", which allows the creation of a unified Big Data engine. 
+As a matter of fact, Spark programming model allows running the "same optimization as specialized engines but using it as libraries" to easily and more efficiently compose \BJ{combine?} them in faster multi-task applications. 
+After its release in 2010, Apache Spark rapidly became "the most active open-source project for Big Data"\cite{spark}. As a consequence, it benefits from a wide community and offers its Application Programming Interface (API) in the Java, Scala, R and Python programming languages. 
 
 \TG{This sub-section is boilerplate too. You can summarize it to 1 or 2 sentences somewhere in your methods.}
+\BJ{remember: "allow" to n'est pas une bonne construction en anglais: allow someone to}
+
+% ------------------------
+% ------------------------
+% ------------------------
 
 \subsection{The Data Imbalance Issue}
 
 Like many real-world binary classification problems such as medical diagnosis or fraud prediction, vehicle collision prediction suffers from the data imbalance issue. This issue arises when we are interested in the prediction of a rare event. In this case, the dataset contains much less examples of the class corresponding to the rare event, which is called the positive class. When dealing with severe data imbalance, usual machine learning algorithms do not perform well ``because they aim to minimize the overall error rate, rather than paying special attention to the positive class''\cite{Chen2004}. \TG{Reformulate last sentence and remove quotes.}
 
-\subsection{Our contribution}
+% ------------------------
+% ------------------------
+% ------------------------
 
-In this study, we assembled a dataset containing road vehicle collisions, a dataset describing the Canadian road network, and a dataset containing historical weather information to create positive examples, corresponding to the occurrence of a collision, and negative examples, corresponding to the non-occurrence of a collision \TG{Sentence is too long. I'd split in two before ``to create".}. For each example, we extracted from the datasets relevant features for accident prediction. Then, we built several predictions model using these example using various machine learning algorithms. We focused on tree-based machine-learning algorithms because they have proven their efficiency compared to classical statistical methods \cite{Chang2005, Chang2005b} and they allow for easier interpretation than deep learning algorithms. We first used the Random Forest algorithm with random under-sampling. We then implemented in Apache Spark and used the Balanced Random Forest algorithm\cite{Chen2004}, a variation of Random Forest aimed at better dealing with data imbalance. Finally, we  tried the XGBoost algorithm, a gradient tree boosting algorithm which has been used successfully for many machine learning problems and can handle data imbalance\cite{xgboost_doc}.
+\subsection{Our Contributions}
+
+In this study, we assembled a data set containing road vehicle collisions, a data set describing the Canadian road network, and a data set containing historical weather information to create positive examples, corresponding to the occurrence of a collision, and negative examples, corresponding to the non-occurrence of a collision \TG{Sentence is too long. I'd split in two before ``to create".}. For each example, we extracted from the data sets relevant features for accident prediction. Then, we built several predictions model using these example using various machine learning algorithms. We focused on tree-based machine-learning algorithms because they have proven their efficiency compared to classical statistical methods \cite{Chang2005, Chang2005b} and they allow for easier interpretation than deep learning algorithms. We first used the Random Forest algorithm with random under-sampling. We then implemented in Apache Spark and used the Balanced Random Forest algorithm\cite{Chen2004}, a variation of Random Forest aimed at better dealing with data imbalance. Finally, we  tried the XGBoost algorithm, a gradient tree boosting algorithm which has been used successfully for many machine learning problems and can handle data imbalance\cite{xgboost_doc}.
 
 The contributions of this paper include: 
 \begin{itemize}
@@ -117,8 +165,8 @@ The rest of this paper is organized as follows: Section 2 presents
 the related work on accident prediction and on learning data imbalance, Section 3 presents the datasets we used and
 how we combined them to create positive and negative examples for the road
 accident prediction, Section 4 presents how we performed feature
-engineering, feature selection and the hyper-parameter tuning, Section 5
-presents our results and Section 6 discusses them.
+engineering, feature selection and the hyper-parameter tuning, Section \ref{sec:results}
+presents our results and Section \ref{sec:discussion} discusses them.
 
 \section{Related work}
 \subsection{Road Accident Prediction}
@@ -233,6 +281,10 @@ road accident prediction\cite{He2009}. The studies performing regression
 use different definitions for the risk of accident, which makes comparisons
 difficult.
 
+% ------------------------
+% ------------------------
+% ------------------------
+
 \subsection{Dealing with Data Imbalance}
 
 Road accident prediction suffers from a data imbalance issue. Indeed, a road
@@ -263,7 +315,15 @@ While neither method is clearly better than the other in terms of prediction
 power, BRF has an advantage in term of training speed because of the under-sampling. Interestingly, Wallace et al.~\cite{Wallace2011} present a theoretical analysis of the data
 imbalance problem and suggest to use methods similar to Balanced Random Forest.
 
-\section{Datasets integration}
+% ------------------------
+% ------------------------
+% ------------------------
+
+\section{Datasets Integration}
+
+% ------------------------
+% ------------------------
+% ------------------------
 
 \subsection{Open Datasets}
 \label{sec:datasets}
@@ -485,18 +545,30 @@ many more trees would have been necessary to increase the maximum depth
 without over-fitting, but then the memory requirement would become unreasonable.
 Our final parametrization used a total of 550 gigabytes of memory per training of the Balanced Random Forest model on the cluster.
 
-\section{Results}
+% ------------------------
+% ------------------------
+% ------------------------
 
-\subsection{Test of our implementation of Balanced Random Forest}
-To test our implementation of Balanced Random Forest (BRF) in Apache Spark, we compared its performances with the performances of the classical Random Forest algorithm (RF) in Apache Spark, and the performances of the Balanced Random Forest implementation in 
-imbalanced-learned\cite{imbalance} on an imbalanced dataset provided by the imbalanced-learn library. We used the mammography dataset. This dataset has an imbalance ratio of 42, there are 42 times more negative samples than positive samples. It is a small dataset of 11183 instances and 6 features. The table~\ref{table:test_brf_results} presents the results we obtained on the test set. We can see that we obtain similar results with both implementations.
+\section{Results}
+\label{sec:results}
+
+% ------------------------
+% ------------------------
+% ------------------------
+
+\subsection{Balanced Random Forest Performance}
+
+To test \BJ{\sout{our implementation of } Balanced Random Forest (BRF)} in Apache Spark, we compared its performances with those of the classical Random Forest algorithm (RF) in Apache Spark, and the ones of the Balanced Random Forest implementation in 
+imbalanced-learned\cite{imbalance} on an imbalanced data set provided by the imbalanced-learn library. 
+
+We used the small mammography data set \BJ{ref.???} with 11,183 instances and 6 features. It has an imbalance ratio of 42, i.e., there are 42 times more negative samples than positive samples. Results are summarized in Table~\ref{table:test_brf_results}. We observe that we obtain similar results with both implementations. \BJ{but you talk of 3 implementations ???}
 
 \begin{table}[htbp]
-\caption{Comparaison of our implementation of BRF with imbalanced-learn}
+\caption{Comparison of our BRF implementation with imbalanced-learn}
 \begin{center}
 \begin{tabular}{|l|r|r|}
-\hline
-{} &  Area under PR &  Area under ROC \\
+\cline{2-3}
+\multicolumn{1}{c|}{} &  Area under PR &  Area under ROC \\
 \hline
 imbalanced-learn RF  &          0.759 &           0.932 \\
 Spark RF             &          0.731 &           0.951 \\
@@ -511,23 +583,23 @@ Spark BRF            &          0.691 &           0.960 \\
 Figure~\ref{fig:test-brf-precision-recall} shows the precision-recall curves obtained with both implementations of the Balanced Random Forest (BRF) and Random Forest (RF) algorithms on the mammography dataset. We can see that BRF implementations perform worse with a low recall but slightly better with a high recall.
 
 \begin{figure}[htbp]
-\centerline{\includegraphics[height=6cm, keepaspectratio]{figures/test_brf_pr.png}}
-\caption{Comparaison of implementations: Precision-recall curves}
+\centerline{\includegraphics[height=6cm, keepaspectratio]{Figures/test_brf_pr.png}}
+\caption{Comparison of implementations: Precision-recall curves}
 \label{fig:test-brf-precision-recall}
 \end{figure}
 
 Figure~\ref{fig:test-brf-roc} shows the Receiver operating characteristic (ROC) curves obtained with both implementations of the Balanced Random Forest (BRF) and Random Forest (RF) algorithms. Like with the precision-recall curves, we observe BRF implementations perform better with high recall values. 
 
 \begin{figure}[htbp]
-\centerline{\includegraphics[height=6cm, keepaspectratio]{figures/test_brf_roc.png}}
-\caption{Comparaison of implementations: ROC curves}
+\centerline{\includegraphics[height=6cm, keepaspectratio]{Figures/test_brf_roc.png}}
+\caption{Comparison of implementations: ROC curves}
 \label{fig:test-brf-roc}
 \end{figure}
 
 \subsection{Vehicle collision prediction}
 
 Results were obtained by training the algorithms on the whole
-dataset of positive samples and with a sub-sample of $0.1\%$ of the 2
+data set of positive samples and with a sub-sample of 0.1\% of the 2
 billion possible negative examples. This corresponds to a total of 2.3
 million examples with a data imbalance reduced to a factor of 17. To
 evaluate our models, we used a test set containing the last two years of our
@@ -539,11 +611,11 @@ Table~\ref{table:summary} presents the results obtained with the classical
 Random Forest algorithm (RF), with the Balanced Random Forest algorithm (BRF), and with the XGBoost algorithm without under-sampling (XGB) on the test set.
 
 \begin{table}[htbp]
-\caption{Results Summary}
+\caption{Result Summary}
 \begin{center}
 \begin{tabular}{|l|r|r|r|}
-\hline
-                 &    BRF &    RF &    XGB \\
+\cline{2-4}
+\multicolumn{1}{c|}{} &    BRF &    RF &    XGB \\
 \hline
 Area under the PR curve &  0.547 &  0.535 &  0.531 \\
 Area under the ROC curve &  0.916 &  0.918 &  0.909 \\
@@ -556,7 +628,7 @@ Area under the ROC curve &  0.916 &  0.918 &  0.909 \\
 Figure~\ref{fig:precision-recall} shows the precision-recall curves of the three models.
 
 \begin{figure}[htbp]
-\centerline{\includegraphics[height=6cm, keepaspectratio]{figures/pr.png}}
+\centerline{\includegraphics[height=6cm, keepaspectratio]{Figures/pr.png}}
 \caption{Vehicle Collision Prediction: Precision-recall curves}
 \label{fig:precision-recall}
 \end{figure}
@@ -564,7 +636,7 @@ Figure~\ref{fig:precision-recall} shows the precision-recall curves of the three
 Figure~\ref{fig:roc} shows the Receiver operating characteristic (ROC) curves of the three models.
 
 \begin{figure}[htbp]
-\centerline{\includegraphics[height=6cm, keepaspectratio]{figures/roc.png}}
+\centerline{\includegraphics[height=6cm, keepaspectratio]{Figures/roc.png}}
 \caption{Vehicle Collision Prediction: ROC curves}
 \label{fig:roc}
 \end{figure}
@@ -572,7 +644,12 @@ Figure~\ref{fig:roc} shows the Receiver operating characteristic (ROC) curves of
 As we can see, the Balanced Random Forest model performs slightly better than the other models.
 It achieves a recall of $85\%$ with a precision of $28\%$. and a false positive rate (FPR) of $13\%$ on the test set.
 
-\subsection{Vehicle Collision Feature Importances}
+% ------------------------
+% ------------------------
+% ------------------------
+
+\subsection{Vehicle Collision Feature Importance}
+
 With a
 feature importance of $67\%$, the number of accidents which occurred on the
 road segment during the previous years is clearly the most useful feature, which
@@ -590,12 +667,17 @@ importance, but the performance of the model decreases significantly if we
 remove one of them. 
 
 \begin{figure}[htbp]
-\centerline{\includegraphics[height=7cm, keepaspectratio]{figures/brf_fi_nocount.png}}
+\centerline{\includegraphics[height=7cm, keepaspectratio]{Figures/brf_fi_nocount.png}}
 \caption{Feature importance computed by the Balanced Random Forest excluding the accident count feature.}
 \label{feature importances}
 \end{figure}
 
+% ------------------------
+% ------------------------
+% ------------------------
+
 \section{Discussion}
+\label{sec:discussion}
 
 With areas under the ROC curve of more than $90\%$, the performances of our models are good.
 However, they mostly rely on the count of previous accidents on the road segment. 
@@ -624,9 +706,18 @@ For these reasons, we think the best measure to compare the performance of
 different studies in accident prediction is the area under the ROC curve.
 As opposed to the area under the precision-recall curve, it does not depend on the amount of sub-sampling done on the negative examples. However, to compare two models in the same study both curves are interesting to look at.\TG{mmm, I may not agree with this, let's discuss it.}. 
 
-\subsection{Difference with other studies}
+% ------------------------
+% ------------------------
+% ------------------------
+
+\subsection{Difference with Other Studies}
+
 Compared to other studies in accident prediction, our study is original by the size of the datasets used and the ``spatial resolution'' of our models' predictions. We call ``spatial resolution'' the precision at which one can estimate the risk of road accident. To the best of our knowledge, some of the related work did either use an important dataset (millions of records in total including hundreds of thousands of positive samples \cite{QChen2016}) or predict at a high resolution (for example making predictions for a given street), but we did not found a study that did both like us. In terms of prediction resolution, some studies worked on only one street \cite{Chang2005} \cite{Chang2005b} \cite{Lin2015} while some others worked on regions (for example 5km by 5km \cite{QChen2016} or 500m by 500m \cite{Yuan2018}). The road accident dataset we used also covers a wider time range than some studies and is about the maximum time range encountered in the related papers we studied: 7 years \cite{Yuan2018} (against 6 years in our case). For example, other studies have worked on accidents occurring during one year \cite{Chang2005} \cite{Chang2005b} \cite{QChen2016} \cite{Lin2015}. In our opinion, the fact that we predict at a higher resolution allow us to get more useful results, but also makes it harder to get good results.
 \TG{How do you explain the very small added-value of data imbalance techniques?}
+
+% ------------------------
+% ------------------------
+% ------------------------
 
 \subsection{Future work}
 
@@ -654,18 +745,34 @@ quite French. In particular, you could reduce your use of ``the": when the noun 
 4 presents how we performed feature engineering, feature
 selection and the hyper-parameter tuning", otherwise it puts emphasis on the fact that hyper-parameter tuning is special, which isn't the case. (2) You use ``we believe" a lot and it sometimes reads weird. You can use ``is likely to", or ``may" instead. Since you have time before the submission, and these comments are more relevant when coming from native English speakers, you could go to Concordia's writing assistance and have them read and comment on a page or two of the paper: \url{https://www.concordia.ca/students/success/learning-support/writing-assistance.html}. Again, this is only to improve an already very good writing!}
 
-\section*{Conclusion}
+% ------------------------
+% ------------------------
+% ------------------------
+
+\section*{Conclusions}
 
 \TG{A conclusion is needed, summarizing the take-home message from the paper:
 can your model be used to predict accidents now? at which resolution? how to use it?}
 \TG{I didn't read the conclusion as it doesn't look finished.}
-In this study we conducted an analysis of road vehicle collisions in the city of Montreal using open data provided by Montreal and the government of Canada. From those datasets we have built road vehicle collision prediction models using tree-based algorithms. By comparing various metric during the evaluation of our models, we found that there is no perfect measure for this problem. First of all, the accuracy is not suited in the case of data imbalance. Second of all, precision and recall are good to reflect the performances, but they are accurate only when the test set has the same class distribution as the real-life class distribution, which can hardly be the case in road accident prediction. Third of all, both ROC and PR curve give different insights and should therefore be used together in future work. The model can predict 85\% of road accident in the area of Montreal at high space resolution and at hourly precision though there is an important amount of false positive. \TG{it would be nice to link this number to an actual results figure.}. We believe our model could be useful to identify the most dangerous time and roads in Montreal. Under the condition that the same kind of datasets are available, we believe that our work can easily be reproduced for other cities. One can freely use our model on Github by loading the model using Spark. Finally, our study shows that open data initiatives to open good quality data are useful to society and allow data science projects of high value by studying important issue for societies like road accidents. 
+In this study we conducted an analysis of road vehicle collisions in the city of Montreal using open data provided by Montreal and the government of Canada. From those datasets we have built road vehicle collision prediction models using tree-based algorithms. By comparing various metrics during the evaluation of our models, we found that there is no perfect measure for the problem under study. 
+% ---
+First of all, the accuracy is not suited in the case of data imbalance. 
+% ---
+Second of all, precision and recall are good to reflect the performances, but they are accurate only when the test set has the same class distribution as the real-life class distribution, which can hardly be the case in road accident prediction. 
+% ---
+Third of all, both ROC and PR curve give different insights and should therefore be used together in future work. The model can predict 85\% of road accident in the area of Montreal at high space resolution and at hourly precision though there is an important amount of false positive. \TG{it would be nice to link this number to an actual results figure.}. We believe our model could be useful to identify the most dangerous time and roads in Montreal. Under the condition that the same kind of datasets are available, we believe that our work can easily be reproduced for other cities. One can freely use our model on Github by loading the model using Spark. Finally, our study shows that open data initiatives to open good quality data are useful to society and allow data science projects of high value by studying important issue for societies like road accidents. 
+
+% ------------------------
+% ------------------------
+% ------------------------
 
 \section*{Acknowledgment}
 
 The authors would like to acknowledge Compute Canada for providing access to the computation clusters, as well as WestGrid and Calcul Québec, Compute Canada's regional partners for the clusters used.
 
+\BJ{I am surprised to see underlined names of journals/books in an IEEE template: can you double check the format? }
+
 \bibliographystyle{IEEEtran}
-\bibliography{biblio}
+\bibliography{IEEEabrv,Biblio/biblio}
 
 \end{document}
