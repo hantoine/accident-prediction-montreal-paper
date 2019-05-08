@@ -36,7 +36,7 @@ $^*$ These authors have contributed equally
 
 Road accidents are an important issue of our modern societies, responsible
 for millions of deaths and injuries every year in the world. \BJ{???: mais pas a Montreal (comme indiqu\'e dans le titre), peut-etre plusieurs ann\'ees, ou sinon le cout pour SAAQ}
-In this paper, we show how one can leverage open data sets of a city like
+In this paper, we show how one can leverage open datasets of a city like
 Montreal, Canada, to create accident prediction models, using state-of-the-art
 big data analytics.
 Such models could be used in the context of road accident prevention, but also
@@ -93,7 +93,7 @@ Governments, states, province and municipalities collect and manage data for the
 Open Data is defined as ``structured data that is machine-readable, freely shared, used and built on without restrictions"~\cite{opendata101}. Open data should be easily accessible and published under terms that permit re-use and redistribution by anyone and for any purpose.
 
 The open data philosophy is the equivalent of the open source philosophy but for data.
-This \BJ{\sout{movement}trend} is made possible by the progress of information technology which allows \BJ{\sout{to share} the sharing of} large amounts of data easily. In 2009, Canada, USA, UK and New Zealand, announced new initiative towards opening up public information. The Government of Canada launched its first-generation of the Open Data Portal in 2011~\cite{opendata101}. Several public data sets are made available on this portal. Montreal is also taking part in the open data \BJ{\sout{movement} trend} since 2012.
+This \BJ{\sout{movement}trend} is made possible by the progress of information technology which allows \BJ{\sout{to share} the sharing of} large amounts of data easily. In 2009, Canada, USA, UK and New Zealand, announced new initiative towards opening up public information. The Government of Canada launched its first-generation of the Open Data Portal in 2011~\cite{opendata101}. Several public datasets are made available on this portal. Montreal is also taking part in the open data \BJ{\sout{movement} trend} since 2012.
 
 \TG{This is very good content for the intro, because it is quite specific to the study. The writing is a bit chopy and could be smoothened.}
 
@@ -126,7 +126,7 @@ Moreover, classification models also output a probability measure which can be s
 The size and complexity of our \BJ{???} datasets required us to use Big Data Analytics methods and tools. In particular, we leveraged the Apache Spark\cite{spark} big data framework. The Apache Spark project has been created at the University of California, Berkeley, in 2009. 
 At this time, many specialized "cluster programming models" were created to deal with diverse Big Data tasks like answering SQL queries, machine learning and graph analysis\cite{spark}. 
 Those models were not necessary thought to work together and required many lines of codes and expertise to be combined. 
-Originally based on the programming model "Map Reduce"\cite{mapreduce}, Spark's programming model also introduced a new distributed collection called "Resilient Distributed Data sets" or "RDDs", which allows the creation of a unified Big Data engine. 
+Originally based on the programming model "Map Reduce"\cite{mapreduce}, Spark's programming model also introduced a new distributed collection called "Resilient Distributed Dataset" or "RDD", which allows the creation of a unified Big Data engine. 
 As a matter of fact, Spark programming model allows running the "same optimization as specialized engines but using it as libraries" to easily and more efficiently compose \BJ{combine?} them in faster multi-task applications. 
 After its release in 2010, Apache Spark rapidly became "the most active open-source project for Big Data"\cite{spark}. As a consequence, it benefits from a wide community and offers its Application Programming Interface (API) in the Java, Scala, R and Python programming languages. 
 
@@ -147,7 +147,7 @@ Like many real-world binary classification problems such as medical diagnosis or
 
 \subsection{Our Contributions}
 
-In this study, we assembled a data set containing road vehicle collisions, a data set describing the Canadian road network, and a data set containing historical weather information to create positive examples, corresponding to the occurrence of a collision, and negative examples, corresponding to the non-occurrence of a collision \TG{Sentence is too long. I'd split in two before ``to create".}. For each example, we extracted from the data sets relevant features for accident prediction. Then, we built several predictions model using these example using various machine learning algorithms. We focused on tree-based machine-learning algorithms because they have proven their efficiency compared to classical statistical methods \cite{Chang2005, Chang2005b} and they allow for easier interpretation than deep learning algorithms. We first used the Random Forest algorithm with random under-sampling. We then implemented in Apache Spark and used the Balanced Random Forest algorithm\cite{Chen2004}, a variation of Random Forest aimed at better dealing with data imbalance. Finally, we  tried the XGBoost algorithm, a gradient tree boosting algorithm which has been used successfully for many machine learning problems and can handle data imbalance\cite{xgboost_doc}.
+In this study, we assembled a dataset containing road vehicle collisions, a dataset describing the Canadian road network, and a dataset containing historical weather information to create positive examples, corresponding to the occurrence of a collision, and negative examples, corresponding to the non-occurrence of a collision \TG{Sentence is too long. I'd split in two before ``to create".}. For each example, we extracted from the datasets relevant features for accident prediction. Then, we built several predictions model using these example using various machine learning algorithms. We focused on tree-based machine-learning algorithms because they have proven their efficiency compared to classical statistical methods \cite{Chang2005, Chang2005b} and they allow for easier interpretation than deep learning algorithms. We first used the Random Forest algorithm with random under-sampling. We then implemented in Apache Spark and used the Balanced Random Forest algorithm\cite{Chen2004}, a variation of Random Forest aimed at better dealing with data imbalance. Finally, we  tried the XGBoost algorithm, a gradient tree boosting algorithm which has been used successfully for many machine learning problems and can handle data imbalance\cite{xgboost_doc}.
 
 The contributions of this paper include: 
 \begin{itemize}
@@ -165,7 +165,7 @@ The rest of this paper is organized as follows: Section 2 presents
 the related work on accident prediction and on learning data imbalance, Section 3 presents the datasets we used and
 how we combined them to create positive and negative examples for the road
 accident prediction, Section 4 presents how we performed feature
-engineering, feature selection and the hyper-parameter tuning, Section \ref{sec:results}
+engineering, feature selection and hyper-parameter tuning, Section \ref{sec:results}
 presents our results and Section \ref{sec:discussion} discusses them.
 
 \section{Related work}
@@ -557,9 +557,9 @@ Our final parametrization used a total of 550 gigabytes of memory per training o
 \subsection{Balanced Random Forest Performance}
 
 To test \BJ{\sout{our implementation of } Balanced Random Forest (BRF)} in Apache Spark, we compared its performances with those of the classical Random Forest algorithm (RF) in Apache Spark, and the ones of the Balanced Random Forest implementation in 
-imbalanced-learned\cite{imbalance} on an imbalanced data set provided by the imbalanced-learn library. 
+imbalanced-learned\cite{imbalance} on an imbalanced dataset provided by the imbalanced-learn library. 
 
-We used the small mammography data set \BJ{ref.???} with 11,183 instances and 6 features. It has an imbalance ratio of 42, i.e., there are 42 times more negative samples than positive samples. Results are summarized in Table~\ref{table:test_brf_results}. We observe that we obtain similar results with both implementations. \BJ{but you talk of 3 implementations ???}
+We used the small mammography dataset \BJ{ref.???} with 11,183 instances and 6 features. It has an imbalance ratio of 42, i.e., there are 42 times more negative samples than positive samples. Results are summarized in Table~\ref{table:test_brf_results}. We observe that we obtain similar results with both implementations. \BJ{but you talk of 3 implementations ???}
 
 \begin{table}[htbp]
 \caption{Comparison of our BRF implementation with imbalanced-learn}
@@ -597,7 +597,7 @@ Figure~\ref{fig:test-brf-roc} shows the Receiver operating characteristic (ROC) 
 \subsection{Vehicle collision prediction}
 
 Results were obtained by training the algorithms on the whole
-data set of positive samples and with a sub-sample of 0.1\% of the 2
+dataset of positive samples and with a sub-sample of 0.1\% of the 2
 billion possible negative examples. This corresponds to a total of 2.3
 million examples with a data imbalance reduced to a factor of 17. To
 evaluate our models, we used a test set containing the last two years of our
