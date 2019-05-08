@@ -556,10 +556,9 @@ Our final parametrization used a total of 550 gigabytes of memory per training o
 
 \subsection{Balanced Random Forest Performance}
 
-To test \BJ{\sout{our implementation of } Balanced Random Forest (BRF)} in Apache Spark, we compared its performances with those of the classical Random Forest algorithm (RF) in Apache Spark, and the ones of the Balanced Random Forest implementation in 
-imbalanced-learned\cite{imbalance} on an imbalanced dataset provided by the imbalanced-learn library. 
-
-We used the small mammography dataset \BJ{ref.???} with 11,183 instances and 6 features. It has an imbalance ratio of 42, i.e., there are 42 times more negative samples than positive samples. Results are summarized in Table~\ref{table:test_brf_results}. We observe that we obtain similar results with both implementations. \BJ{but you talk of 3 implementations ???}
+To test our implementation of Balanced Random Forest (BRF) in Apache Spark, we performed an experiment on an imbalanced dataset provided by the imbalanced-learn library.
+We chose to use the mammography dataset\cite{Woods1993} which is a small dataset with 11,183 instances and 6 features. It has an imbalance ratio of 42, i.e., there are 42 times more negative samples than positive samples. We compared the performances obtained with the implementation of BRF in the library imbalanced-learn with those obtained with our implementation of BRF in Apache Spark. We also compared these performances with the performances obtained with both implementations of the classical Random Forest algorithm.
+Results are summarized in Table~\ref{table:test_brf_results}. We observe that we obtain similar results with both implementations of BRF.
 
 \begin{table}[htbp]
 \caption{Comparison of our BRF implementation with imbalanced-learn}
