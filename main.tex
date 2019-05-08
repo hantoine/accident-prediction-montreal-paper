@@ -10,7 +10,7 @@
 \usepackage{xcolor}
 \usepackage[utf8]{inputenc}
 \usepackage[hidelinks]{hyperref}
-\usepackage{ulem}  % for \ulem
+\usepackage[normalem]{ulem}  % for \ulem
 \usepackage{xspace}
 
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
@@ -38,20 +38,20 @@ Road accidents are an important issue of our modern societies, responsible
 for millions \BJ{???: mais pas a Montreal (comme indiqu\'e dans le titre), un peu puzzling, peut etre clarifier mondial vs. local, plusieurs ann\'ees, ou sinon le cout pour SAAQ} of deaths and injuries every year. 
 In this paper, we show how one can leverage open data sets of a city like
 Montreal, Canada, to create accident prediction models, using state-of-the-art
-big data analytics \BJ{\sout{methods}}.
+big data analytics.
 Such models could be used in the context of road accident prevention, but also
-to identify key factors that can lead to a road accident, and \BJ{\sout{eventually} consequently}, help
+to identify key factors that can lead to a road accident, and consequently, help
 elaborate new policies.
 
-We tested various \BJ{machine learning} methods to deal with the severe class imbalance inherent
+We tested various machine learning methods to deal with the severe class imbalance inherent
 to accident prediction problems. In particular, we implemented the Balanced Random Forest algorithm, a variant
 of the Random Forest machine learning algorithm, into the Scala and Python
 APIs of Apache Spark \TG{Is the PR in?} \BJ{Not sure the details of scala/Python are needed in the abstract}.
 
-\BJ{Experimental results show that our learning model} identifies as positives 13\% of the data
+Experimental results show that our learning model identifies as positives 13\% of the data
 points with the highest risk of collision, which corresponds to 85\% of 
 vehicle collisions.
-In addition, we identify the most \BJ{important} predictors of vehicle collisions for the area of Montreal: the count of accidents on the same road segment during previous years, the temperature \BJ{hot or cold or both?}, the day of the year, the hour and the visibility.
+In addition, we identify the most important predictors of vehicle collisions for the area of Montreal: the count of accidents on the same road segment during previous years, the temperature, the day of the year, the hour and the visibility.
 
 \end{abstract}
 
@@ -67,10 +67,10 @@ Road accidents, Big data applications, Data analysis, Machine learning, Classifi
 
 The World Health Organization describes the road traffic system as the most
 complex and the most dangerous system with which people have to deal every
-day~\cite{Peden2004}. As a matter of fact, more than one million people \BJ{world? clarify, because title says Montreal do not expect numbers for the world???}
+day~\cite{Peden2004}. As a matter of fact, in the world, more than one million people
 die every year from car accidents and dozens of millions of people are
-injured. Even more importantly, the number of road accidents is forecast to
-continue rising in the coming years. \BJ{even in Canada??? I did check, does not seam to be true for Canada and several other developed countries.}
+injured. Even more importantly, the number of road accidents in the world is forecast to
+continue rising in the coming years.
 
 % ------------------------
 % ------------------------
@@ -103,7 +103,7 @@ This \BJ{\sout{movement}trend} is made possible by the progress of information t
 
 \subsection{High-Resolution Road Vehicle Collision Prediction}
 
-With the progression of the open data initiative, governments and municipalities are publishing \BJ{\sout{increasing quantities of} more and more} data. At the same time, the recent progresses in Big Data Analytics have facilitated the processing of large data volumes. This makes it possible to build efficient data models for the study of road accidents.
+With the progression of the open data initiative, governments and municipalities are publishing more and more data. At the same time, the recent progresses in Big Data Analytics have facilitated the processing of large data volumes. This makes it possible to build efficient data models for the study of road accidents.
 
 \BJ{I suggest not to restrict to that paper, even if it was your starting point, as other initiatives exists for predicting/anticipating car collision. Maybe ??? I would start this way //
 Several initiatives have been launched over the last few years in order to design tools in order to predict accidents. 
@@ -123,7 +123,7 @@ Moreover, classification models also output a probability measure which can be s
 
 \subsection{Apache Spark}
 
-The size and complexity of our \BJ{???} dataset required us to use Big Data Analytics methods and tools. In particular, we leveraged the Apache Spark\cite{spark} big data framework. The Apache Spark project has been created at the University of California, Berkeley, in 2009. 
+The size and complexity of our \BJ{???} datasets required us to use Big Data Analytics methods and tools. In particular, we leveraged the Apache Spark\cite{spark} big data framework. The Apache Spark project has been created at the University of California, Berkeley, in 2009. 
 At this time, many specialized "cluster programming models" were created to deal with diverse Big Data tasks like answering SQL queries, machine learning and graph analysis\cite{spark}. 
 Those models were not necessary thought to work together and required many lines of codes and expertise to be combined. 
 Originally based on the programming model "Map Reduce"\cite{mapreduce}, Spark's programming model also introduced a new distributed collection called "Resilient Distributed Data sets" or "RDDs", which allows the creation of a unified Big Data engine. 
@@ -692,12 +692,7 @@ As expected, we obtained similar results to the imbalanced-learn library with ou
 
 For the road vehicle collision prediction, the Balance Random Forest algorithm obtained slightly better results than the classical Random Forest algorithm. However, the gain in prediction performance is small. We believe this is caused by the fact that negative examples are not so different from each other and the information they contain is well captured by a single random sub-sample. Like on the mammography dataset, we observe that the BRF algorithm achieved better performances than Random Forest with high recall values. With lower recall values both Random Forest algorithms had similar performances. The XGBoost algorithm obtained worse results than the two other algorithms. However, it is still interesting because it was much faster to train than Random Forest algorithms. This made the hyper-parameter tuning of the XGBoost algorithm easier and much faster. 
 
-As stated previously, the measure of the accuracy is not a good metric for road accidents prediction. Indeed, since most examples belong to the negative class, the model which obtains the best accuracy is usually the one with the lowest false positive rate. But for rare event prediction, we usually want a model with a high recall even if it implies a higher false positive rate. For these reasons
-
-We explained previously why the measure of the precision and recall are better metric than the accuracy when we have data imbalance. However, we should be careful when using the precision measure on a dataset using a sample of the possible negative examples like it is usually the case in accident prediction. Indeed, the precision computed on the test set does not corresponds to the precision we would obtain in production.
-For this reasons 
-  
-However, we should be careful when using the precision measure on a dataset using a sample of the possible negative examples like it is usually the case in accident prediction. Indeed, the precision computed on the test set does not corresponds to the precision we would obtain in production.
+As stated previously, the measure of the accuracy is not a good metric for road accidents prediction. Indeed, since most examples belong to the negative class, the model which obtains the best accuracy is usually the one with the lowest false positive rate. But for rare event prediction, we usually want a model with a high recall even if it implies a higher false positive rate. For these reasons, we decided not to use the measure of the accuracy. Instead we used the precision-recall curve to compare our the performances of our models. However, we should be careful when using the precision measure on a dataset using a sample of the possible negative examples like it is usually the case in accident prediction. Indeed, the precision computed on the test set does not corresponds to the precision we would obtain in production.
 If the sample of negative examples is representative of the population
 in production, the model will achieve the same false positive rate.
 Because we used a sample of the possible negative examples but all the 
@@ -769,8 +764,6 @@ Third of all, both ROC and PR curve give different insights and should therefore
 \section*{Acknowledgment}
 
 The authors would like to acknowledge Compute Canada for providing access to the computation clusters, as well as WestGrid and Calcul Québec, Compute Canada's regional partners for the clusters used.
-
-\BJ{I am surprised to see underlined names of journals/books in an IEEE template: can you double check the format? }
 
 \bibliographystyle{IEEEtran}
 \bibliography{IEEEabrv,Biblio/biblio}
