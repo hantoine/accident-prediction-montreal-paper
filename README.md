@@ -1,5 +1,7 @@
 # High-Resolution Road Vehicle Collision Prediction for the City of Montreal
 
+## Abstract
+
 Road accidents are an important issue of our modern societies, responsible
 for millions of deaths and injuries every year in the world. In Quebec only, road accidents are responsible for hundreds of deaths and tens of thousands of injuries. 
 In this paper, we show how one can leverage open datasets of a city like
