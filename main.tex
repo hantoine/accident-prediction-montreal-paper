@@ -49,10 +49,9 @@ road accidents are responsible for hundreds of deaths and tens of thousands of i
 In this paper, we show how one can leverage open datasets of a city like
 Montreal, Canada, to create high-resolution accident prediction models, using state-of-the-art
 big data analytics.
-%AH Add following sentence to make sure reviewers will notice the difference with other studies
 Compared to other studies in road accident prediction, we have a much higher
 prediction resolution, i.e., our models predict the occurrence of an accident
-within an hour on road segments defined by intersections.
+within an hour, on road segments defined by intersections.
 Such models could be used in the context of road accident prevention, but also
 to identify key factors that can lead to a road accident, and consequently, help
 elaborate new policies.
@@ -98,7 +97,7 @@ Open data is made possible by the progress of information technology which allow
 % ------------------------
 % ------------------------
 
-\subsection{High-resolution Road Vehicle Collision Prediction}
+\subsection{High-Resolution Road Vehicle Collision Prediction}
 
 With the emergence of open data, governments and municipalities are publishing more and more data. At the same time, the recent progresses in Big Data Analytics have facilitated the processing of large data volumes. This makes it possible to build efficient data models for the study of road accidents.
 
@@ -124,8 +123,11 @@ Like many real-world binary classification problems such as medical diagnosis or
 
 \subsection{Our Contributions}
 
-In this study, we assembled a dataset containing road vehicle collisions, a dataset describing the Canadian road network, and a dataset containing historical weather information. Using these datasets, we created positive examples, corresponding to the occurrence of a collision, and negative examples, corresponding to the non-occurrence of a collision. For each example, we extracted from the datasets relevant features for accident prediction. Then, we built several prediction models using these examples using various machine learning algorithms. We focused on tree-based machine-learning algorithms because they have proven their efficiency compared to classical statistical methods \cite{Chang2005, Chang2005b} and they allow for easier interpretation than deep learning algorithms. We first used the Random Forest algorithm\cite{Breiman2001}. %AH Split in two sentences: first say we used BRF, then explain we implemented it
-We then used the Balanced Random Forest algorithm\cite{Chen2004}, a variation of Random Forest aimed at better dealing with data imbalance. This algorithm was not implemented in Apache Spark, so we implemented it ourselves. Finally, we considered the XGBoost algorithm\cite{TChen2016}, a gradient tree boosting algorithm which has been used successfully for many machine learning problems and can handle data imbalance\cite{xgboost_doc}.
+In this study, we assembled a dataset containing road vehicle collisions, a dataset describing the Canadian road network, and a dataset containing historical weather information. Using these datasets, we created positive examples, corresponding to the occurrence of a collision, and negative examples, corresponding to the non-occurrence of a collision. For each example, we extracted from the datasets relevant features for accident prediction. Then, we built several prediction models using these examples using various machine learning algorithms. 
+We focused on tree-based machine-learning algorithms because they have already proven their effectiveness compared to classical statistical methods \cite{Chang2005, Chang2005b}. In addition, they allow for easier interpretation than deep learning algorithms. We first used the Random Forest algorithm\cite{Breiman2001}. 
+%BJ I slightly revise the sentence
+We then used the Balanced Random Forest (BRF) algorithm\cite{Chen2004}, a variation of Random Forest specifically designed to better manage data imbalance. 
+As BRF was not yet implemented in Apache Spark, we implemented it ourselves. Finally, we considered the XGBoost algorithm\cite{TChen2016}, a gradient tree boosting algorithm which has been used successfully for many machine learning problems and can handle data imbalance\cite{xgboost_doc}.
 
 The contributions of this paper include: 
 \begin{itemize}
@@ -138,8 +140,8 @@ meaningful features for road accident prediction,
 
 All the source code used is publicly available \href{https://github.com/big-data-lab-team/accident-prediction-montreal}{on Github} under MIT license.
 
-%AH moved the following paragraph from discussion to here to make sure reviewers will see the difference with other studies
-Compared to other studies in accident prediction, our study is original by the size of the datasets used and the spatial resolution of the predictions of our models. To the best of our knowledge, some of the related work did either use an important dataset (millions of records in total including hundreds of thousands of positive samples \cite{QChen2016}) or predict at a high resolution on one particular road, but we did not find a study that did both like us. In terms of prediction resolution, some studies worked on only one road \cite{Chang2005} \cite{Chang2005b} \cite{Lin2015} while some others worked on regions (for example 5km by 5km \cite{QChen2016} or 500m by 500m \cite{Yuan2018}). The road accident dataset we used also covers a wider time range than some studies and is about the maximum time range encountered in the related papers we studied: 7 years \cite{Yuan2018} (against 6 years in our case). For example, other studies have worked on accidents occurring during one year \cite{Chang2005} \cite{Chang2005b} \cite{QChen2016} \cite{Lin2015}. In our opinion, the fact that we predict at a higher resolution allow us to get more useful results.
+%BJ J'ai modifié un peu
+Compared to other studies in accident prediction, our study is original by the size of the datasets used and the spatial resolution of the predictions of our models. Previous studies did either use a large dataset (millions of records in total including hundreds of thousands of positive samples \cite{QChen2016}) or predict at a high resolution on one particular road, but no study combines both aspects, which is the hallmark of our study. In terms of prediction resolution, some studies worked on only one road \cite{Chang2005} \cite{Chang2005b} \cite{Lin2015} while some others worked on regions (for example 5km by 5km \cite{QChen2016} or 500m by 500m \cite{Yuan2018}). The road accident dataset we used also covers a wider time range than some studies and is about the maximum time range encountered in the related papers we studied: 7 years \cite{Yuan2018} (against 6 years in our case). For example, other studies have worked on accidents occurring during one year \cite{Chang2005} \cite{Chang2005b} \cite{QChen2016} \cite{Lin2015}. In our opinion, the fact that we predict at a higher resolution allow us to get more useful results.
 
 The rest of this paper is organized as follows: Section 2 presents
 the related work on accident prediction and on learning with imbalanced data, Section 3 presents the datasets we used and
@@ -269,9 +271,7 @@ difficult.
 Road accident prediction suffers from a data imbalance issue. Indeed, a road
 accident is a very rare event so we have much more examples without accident, than examples with accidents available. Machine learning algorithms usually
 have difficulty learning from imbalanced datasets \cite{Branco2016}.
-%AH replaced approach by type/class of approaches
-There are two main type of approaches to deal with data imbalance. The sampling approaches
-consist in re-sampling the dataset to make it balanced either by over sampling the
+There are two main types of approaches to deal with data imbalance. The sampling approaches consist in re-sampling the dataset to make it balanced either by over sampling the
 minority class, by under-sampling the majority class or by doing both.
 Random under-sampling of the majority class usually performs better than
 more advanced methods like SMOTE or NearMiss~\cite{Branco2016}.
@@ -282,7 +282,6 @@ learning algorithm.
 
 Chen, Liaw, and Breiman\cite{Chen2004} proposed two methods to deal with class imbalance
 when using Random Forest: Weighted Random Forest and Balanced Random Forest.
-%AH replaced approach by type/class of approaches
 Weighted Random Forest (WRF) belongs to the class of cost-based approaches. It consists in giving more weight to the minority class when building a tree: during split selection and during 
 class prediction of each terminal node. Balanced Random Forest belongs to the class of sampling
 approaches. It is similar to Random Forest, but with a
@@ -360,12 +359,11 @@ in order to obtain 2.3 million examples. We removed from these examples the few
 ones corresponding to a collision in the collision dataset in order to obtain
 the negative examples.
 
-%AH rewrote the sentence to make it clearer
 The identification of the road segments for each collision and the estimation of the weather
 information for each road segment made our dataset generation expensive in resources and time. 
 We used the big data framework Apache Spark \cite{Zaharia2016} to implement
-these dataset combination operations. Inspired by the Map Reduce programming
-model~\cite{mapreduce}, Apache Spark's programming model introduced a new
+these dataset combination operations. 
+Inspired by the Map Reduce programming model~\cite{mapreduce}, Apache Spark's programming model introduced a new
 distributed collection called Resilient Distributed Dataset (RDD), which
 provides the ``same optimization as specialized Big Data engines but using it
 as libraries" through a unified API. After its release in 2010, Apache Spark
@@ -512,7 +510,7 @@ Therefore, we removed the features wind direction, wind speed, dew
 point temperature, wind chill, hmdx index and day of month which had a
 much lower feature importance. This improved the performances of the model.
 
-\subsection{Hyper-parameter Tuning}
+\subsection{Hyper-Parameter Tuning}
 
 To determine the optimal hyper parameters, we first performed
 automatic hyper-parameter tuning by performing a grid search 
@@ -594,7 +592,6 @@ the count of accidents occurring from 2012 to 2016 on the road segment.
 In addition to the three models built using tree-based machine learning algorithms,
 we created a very basic model using only the count of accidents of the road segment.
 We used the results of this model as a baseline. 
-%AH rewrote the sentence to try to make it clearer
 The probability of accidents given 
 by this model for an example whose road segment has a count of accidents of $n$, is the percentage
 of positive examples among the examples with a count of accidents higher than $n$.
@@ -616,10 +613,9 @@ Area under the ROC curve &  0.916 &  0.918 &  0.909 & 0.874 \\
 \label{table:summary}
 \end{center}
 \end{table}
-%AH add comments on the table
 As we can see, the three machine learning models obtain similar performances
 and perform much better than the baseline model. The Balance Random Forest model
-reaches a slightly better area under the PR curve than the tho others. The XGBoost
+reaches a slightly better area under the PR curve than the two others. The XGBoost
 model has slightly worse performances than the two others in terms of area under
 the ROC curve. 
 
@@ -740,7 +736,6 @@ construction work on roads, and a dataset with the population density.
 In addition, Transport Qu\'ebec gives access to cameras monitoring the main
 roads of Montreal. The videos from these cameras could be useful to get an
 estimation of the traffic on the island. 
-%AH Split in two sentences
 These datasets could be used to improve prediction performances.
 However, this type of dataset might not be available for other geographical areas.
 
@@ -760,11 +755,13 @@ patterns can be used by merging other datasets.
 \section{Conclusions}
 
 In this study, we conducted an analysis of road vehicle collisions in the
-city of Montreal using open data provided by Montreal and the Government of Canada. From three different datasets, we have built road vehicle collision
-prediction models using tree-based algorithms. Our best model can predict $85\%$
-of road accidents in the area of Montreal with a false positive rate of $13\%$. Our models predict the occurrence of a collision at high space resolution and hourly precision. In practice, this
+city of Montreal using open data provided by Montreal city and the Government of Canada. 
+Using three different datasets, we built road vehicle collision
+prediction models using tree-based algorithms. Our best model can predict $85\%$ of road accidents in the area of Montreal with a false positive rate of $13\%$. 
+Our models predict the occurrence of a collision at high space resolution and hourly precision. In other words, it
 means our models can be used to identify the most dangerous road
-segments every hour, in order to take actions to reduce the risk of accidents. Moreover, we believe that our work
+segments every hour, in order to take actions to reduce the risk of accidents. 
+Moreover, we believe that our work
 can easily be reproduced for other cities under the condition that similar 
 datasets are available. One can freely use our source code on Github for reference.
 Finally, our study shows that open data initiatives are useful to society because they make it possible to study critical issues like road
