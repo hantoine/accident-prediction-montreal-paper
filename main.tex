@@ -80,7 +80,7 @@ The World Health Organization describes the road traffic system as the most
 complex and the most dangerous system with which people have to deal every
 day~\cite{Peden2004}. In the last few years, the number of road traffic deaths in the world climbed, reaching 1.35 million in 2016\cite{road_safety_report}. More particularly in Quebec, Canada, hundreds of people were killed in 2018, more than a thousand were seriously injured and tens of thousands have suffered small injuries\cite{saaq}.
 
-Meanwhile, Big Data Analytics has emerged in the last decade as a set of techniques allowing data scientists to extract meaningful information from large amounts of complex and heterogeneous data \cite{Gandomi2015}. In the context of accident prediction, such techniques provide insights on the conditions leading to an increased risk of road accidents, which in return, be used to develop traffic-related policies and prevention operations. 
+Meanwhile, Big Data Analytics has emerged in the last decade as a set of techniques allowing data scientists to extract meaningful information from large amounts of complex and heterogeneous data \cite{Gandomi2015}. In the context of accident prediction, such techniques provide insights on the conditions leading to an increased risk of road accidents, which in return, can be used to develop traffic-related policies and prevention operations. 
 
 % ------------------------
 % ------------------------
@@ -143,15 +143,16 @@ All the source code used is publicly available \href{https://github.com/big-data
 %BJ J'ai modifié un peu
 Compared to other studies in accident prediction, our study is original by the size of the datasets used and the spatial resolution of the predictions of our models. Previous studies did either use a large dataset (millions of records in total including hundreds of thousands of positive samples \cite{QChen2016}) or predict at a high resolution on one particular road, but no study combines both aspects, which is the hallmark of our study. In terms of prediction resolution, some studies worked on only one road \cite{Chang2005} \cite{Chang2005b} \cite{Lin2015} while some others worked on regions (for example 5km by 5km \cite{QChen2016} or 500m by 500m \cite{Yuan2018}). The road accident dataset we used also covers a wider time range than some studies and is about the maximum time range encountered in the related papers we studied: 7 years \cite{Yuan2018} (against 6 years in our case). For example, other studies have worked on accidents occurring during one year \cite{Chang2005} \cite{Chang2005b} \cite{QChen2016} \cite{Lin2015}. In our opinion, the fact that we predict at a higher resolution allow us to get more useful results.
 
-The rest of this paper is organized as follows: Section 2 presents
-the related work on accident prediction and on learning with imbalanced data, Section 3 presents the datasets we used and
+The rest of this paper is organized as follows: Section \ref{sec:relatedwork} presents
+the related work on accident prediction and on learning with imbalanced data, Section \ref{sec:datasetsintegration} presents the datasets we used and
 how we combined them to create positive and negative examples for road
-accident prediction, Section 4 presents how we performed feature
+accident prediction, Section \ref{sec:modeldev} presents how we performed feature
 engineering, feature selection and hyper-parameter tuning, Section \ref{sec:results}
 presents our results and Section \ref{sec:discussion} discusses them.
 Conclusions are drawn in the last section.
 
 \section{Related Work}
+\label{sec:relatedwork}
 \subsection{Road Accident Prediction}
 Accident prediction has been extensively studied in the last decades.
 Historically, variations of the Poisson regression such as the negative
@@ -167,7 +168,7 @@ information such as average precipitation and temperature.
 In 2005,
 Chang~\cite{Chang2005} compared the performances of a negative binomial
 regression with that of an Artificial Neural Network (ANN) to predict the number
-of accidents during a year on a road segments of a major freeway in
+of accidents during a year on road segments of a major freeway in
 Taiwan. The dataset contained data from the years 1997 and 1998, which
 resulted in 1,338 accidents. The ANN achieved slightly better results than negative 
 binomial regression, with
@@ -298,7 +299,7 @@ imbalance problem and suggest to use methods similar to Balanced Random Forest.
 % ------------------------
 
 \section{Datasets Integration}
-
+\label{sec:datasetsintegration}
 % ------------------------
 % ------------------------
 % ------------------------
@@ -396,6 +397,7 @@ We also used clusters from Compute Canada to take maximum advantage of the Apach
 To facilitate tests and development, our \href{https://github.com/big-data-lab-team/accident-prediction-montreal/blob/master/preprocess.py}{pre-processing program} saves intermediate results to disk in the Parquet format. During later execution of the algorithm, if the intermediate results exists on disk, they will be read instead of being recomputed. This made it possible to quickly test new features and different parameters by recomputing only the required parts of the dataset.
 
 \section{Model Development}
+\label{sec:modeldev}
 
 \subsection{Implementation of Balanced Random Forest}
 
