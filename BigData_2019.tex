@@ -45,9 +45,9 @@ $^*$ These authors have contributed equally
 
 Road accidents are an important issue of our modern societies, responsible
 for millions of deaths and injuries every year in the world. In Quebec only,
-road accidents are responsible for hundreds of deaths and tens of thousands of injuries. 
+in 2018, road accidents are responsible for 359 deaths and 33 thousands of injuries.
 In this paper, we show how one can leverage open datasets of a city like
-Montreal, Canada, to create high-resolution accident prediction models, using state-of-the-art
+Montreal, Canada, to create high-resolution accident prediction models, using
 big data analytics.
 Compared to other studies in road accident prediction, we have a much higher
 prediction resolution, i.e., our models predict the occurrence of an accident
@@ -58,7 +58,8 @@ elaborate new policies.
 
 We tested various machine learning methods to deal with the severe class imbalance inherent
 to accident prediction problems. In particular, we implemented the Balanced Random Forest algorithm, a variant
-of the Random Forest machine learning algorithm in Apache Spark.
+of the Random Forest machine learning algorithm in Apache Spark. \AH{Interestingly, we found that in our case,
+Balanced Random Forest does not perform significantly better than Random Forest.}
 
 Experimental results show that 85\% of road vehicle collisions are detected by our model with a false positive rate of 13\%. The examples identified as positive are likely to correspond to high risk situations.
 In addition, we identify the most important predictors of vehicle collisions for the area of Montreal: the count of accidents on the same road segment during previous years, the temperature, the day of the year, the hour and the visibility.
@@ -78,7 +79,7 @@ Road accidents, Big data applications, Data analysis, Machine learning, Classifi
 
 The World Health Organization describes the road traffic system as the most
 complex and the most dangerous system with which people have to deal every
-day~\cite{Peden2004}. In the last few years, the number of road traffic deaths in the world climbed, reaching 1.35 million in 2016\cite{road_safety_report}. More particularly in Quebec, Canada, hundreds of people were killed in 2018, more than a thousand were seriously injured and tens of thousands have suffered small injuries\cite{saaq}.
+day~\cite{Peden2004}. In the last few years, the number of road traffic deaths in the world climbed, reaching 1.35 million in 2016\cite{road_safety_report}. More particularly in Quebec, Canada, 359 people were killed in 2018, more than a thousand were seriously injured and tens of thousands have suffered small injuries\cite{saaq}.
 
 Meanwhile, Big Data Analytics has emerged in the last decade as a set of techniques allowing data scientists to extract meaningful information from large amounts of complex and heterogeneous data \cite{Gandomi2015}. In the context of accident prediction, such techniques provide insights on the conditions leading to an increased risk of road accidents, which in return, can be used to develop traffic-related policies and prevention operations. 
 
@@ -91,7 +92,7 @@ Meanwhile, Big Data Analytics has emerged in the last decade as a set of techniq
 Governments, states, province and municipalities collect and manage data for their internal operations. In the last decade, an open data movement has emerged that encourages governments to make the data they collect available to the public as ``open data".
 Open data is defined as ``structured data that is machine-readable, freely shared, used and built on without restrictions"~\cite{opendata101}. Open data should be easily accessible and published under terms that permit re-use and redistribution by anyone and for any purpose.
 
-Open data is made possible by the progress of information technology which allows the sharing of large amounts of data easily. In 2009, Canada, USA, UK and New Zealand, announced new initiatives towards opening up public information. It is in this spirit that the Government of Canada launched its first-generation of the Open Data Portal in 2011~\cite{opendata101}, giving access to several public datasets. In 2012, the city of Montreal launched its own open data portal.
+Open data is made possible by the progress of information technology which allows the sharing of large amounts of data. In 2009, Canada, USA, UK and New Zealand, announced new initiatives towards opening up public information. It is in this spirit that the Government of Canada launched its first-generation of the Open Data Portal in 2011~\cite{opendata101}, giving access to several public datasets. In 2012, the city of Montreal launched its own open data portal.
 
 % ------------------------
 % ------------------------
@@ -101,7 +102,7 @@ Open data is made possible by the progress of information technology which allow
 
 With the emergence of open data, governments and municipalities are publishing more and more data. At the same time, the recent progresses in Big Data Analytics have facilitated the processing of large data volumes. This makes it possible to build efficient data models for the study of road accidents.
 
-Accident prediction has been extensively studied in the last decade. Several studies used relatively small datasets and performed accident prediction only on a few selected roads\cite{Chang2005, Chang2005b, Lin2015, Theofilatos2017}. More recently, other studies performed accident prediction at a larger scale, such as cities or states, using deep 
+Accident prediction has been extensively studied in the last decade. \AH{The goal in accident prediction is usually to provide a measure of the risk of accident at different points in time and space.} Several studies used relatively small datasets and performed accident prediction only on a few selected roads\cite{Chang2005, Chang2005b, Lin2015, Theofilatos2017}. More recently, other studies performed accident prediction at a larger scale, such as cities or states, using deep 
 learning\cite{QChen2016, Najjar2017, Yuan2018}.
 However, unlike previous studies, they only provide an estimation of the risk of accidents for large areas, i.e., at a coarse spatial resolution. An online article\cite{mediumarticle} presents a study of high resolution road accident prediction in the state of Utah with apparent good performances. This article has inspired us to build a machine-learning model for high-resolution road vehicle collision prediction using public datasets. We used datasets provided by the city of Montreal and the government of Canada as part of their open data initiative. Compared to \cite{mediumarticle}, we have a smaller study area, the island of Montreal, but a much higher prediction resolution. Indeed, the size and precision of our datasets made it possible to predict the occurrence of an accident within an hour on road segments defined by road intersections.
 
@@ -142,6 +143,8 @@ All the source code used is publicly available \href{https://github.com/big-data
 
 %BJ J'ai modifié un peu
 Compared to other studies in accident prediction, our study is original by the size of the datasets used and the spatial resolution of the predictions of our models. Previous studies did either use a large dataset (millions of records in total including hundreds of thousands of positive samples \cite{QChen2016}) or predict at a high resolution on one particular road, but no study combines both aspects, which is the hallmark of our study. In terms of prediction resolution, some studies worked on only one road \cite{Chang2005} \cite{Chang2005b} \cite{Lin2015} while some others worked on regions (for example 5km by 5km \cite{QChen2016} or 500m by 500m \cite{Yuan2018}). The road accident dataset we used also covers a wider time range than some studies and is about the maximum time range encountered in the related papers we studied: 7 years \cite{Yuan2018} (against 6 years in our case). For example, other studies have worked on accidents occurring during one year \cite{Chang2005} \cite{Chang2005b} \cite{QChen2016} \cite{Lin2015}. In our opinion, the fact that we predict at a higher resolution allow us to get more useful results.
+
+\AH{Add here a small paragraph on the real goal of accident prediction, how the occurrence of an accident is used as a surrogate label to get a model providing a measure of the risk}
 
 The rest of this paper is organized as follows: Section \ref{sec:relatedwork} presents
 the related work on accident prediction and on learning with imbalanced data, Section \ref{sec:datasetsintegration} presents the datasets we used and
@@ -389,7 +392,7 @@ recomputing these results was faster than writing and reading them in the
 cache. Finally, the identification of the road segment corresponding to
 accidents was very memory intensive, we modified this step to be executed
 by batches of one month. With these improvements and a few other tricks
-including partitioning the data frame at key points in our algorithm, we
+including re-partitioning the data frame at key points in our algorithm, we
 managed to reduce the processing times to a reasonable time of a few hours.
 
 We also used clusters from Compute Canada to take maximum advantage of the Apache Spark distributed nature for the generation of examples and the hyper-parameter tuning of our models. We started with the Cedar cluster provided by West Grid and we continued with the new B\'eluga cluster provided by Calcul Québec.
@@ -521,7 +524,9 @@ have been too high, we took a small sample of the dataset. Still, we could
 not test many parameter combinations using this method.
 
 Once we got a first result with grid search we continued manually by
-following a plan, do, check, adjust method. We used the area under the precision-recall curve as a main metric. We also plotted the precision-recall and ROC curves on the test and training set to better understand how the performances of our model could be improved. These curves are obtained by computing the precision, the recall and the false positive rate metrics when varying the threshold used to classify an example as positive. Most classification algorithms provide a measure of the confidence with which an example belongs to a class. We can reduce the threshold on the confidence beyond which we classify the example as positive in order to achieve a higher recall but a lower precision and a higher false positive rate.
+following a plan, do, check, adjust method. We plotted the precision-recall and ROC curves on the test and training set to understand how the performances of our model could be improved. These curves are obtained by computing the precision, the recall and the false positive rate metrics when varying the threshold used to classify an example as positive. Most classification algorithms provide a measure of the confidence with which an example belongs to a class. We can reduce the threshold on the confidence beyond which we classify the example as positive in order to achieve a higher recall but a lower precision and a higher false positive rate. \AH {In order to obtain a general measure of the performances of a classifier
+at all thresholds, we can use the area under the ROC curve, the area under the Precision-Recall curve however should not be used\cite{flach2015precision}}
+
 
 Interestingly, despite using many trees, our Random Forest classifiers
 tended to over-fit very quickly as soon as the maximum depth parameter went
@@ -552,13 +557,13 @@ Results are summarized in Table~\ref{table:test_brf_results}. We observe that we
 \caption{Comparison of our BRF implementation with imbalanced-learn}
 \begin{center}
 \begin{tabular}{|l|r|r|}
-\cline{2-3}
-\multicolumn{1}{c|}{} &  Area under PR &  Area under ROC \\
+\cline{2-2}
+\multicolumn{1}{c|}{} &  Area under ROC \\
 \hline
-imbalanced-learn RF  &          0.759 &           0.932 \\
-Spark RF             &          0.731 &           0.951 \\
-imbalanced-learn BRF &          0.677 &           0.956 \\
-Spark BRF            &          0.691 &           0.960 \\
+imbalanced-learn RF  &   0.932 \\
+Spark RF             &   0.951 \\
+imbalanced-learn BRF &   0.956 \\
+Spark BRF            &   0.960 \\
 \hline
 \end{tabular}
 \label{table:test_brf_results}
@@ -573,7 +578,7 @@ Figure~\ref{fig:test-brf-precision-recall} shows the precision-recall curves obt
 \label{fig:test-brf-precision-recall}
 \end{figure}
 
-Figure~\ref{fig:test-brf-roc} shows the Receiver operating characteristic (ROC) curves obtained with both implementations of the Balanced Random Forest (BRF) and Random Forest (RF) algorithms. Like with the precision-recall curves, we observe BRF implementations perform better with high recall values. 
+Figure~\ref{fig:test-brf-roc} shows the Receiver operating characteristic (ROC) curves obtained with both implementations of the Balanced Random Forest (BRF) and Random Forest (RF) algorithms.
 
 \begin{figure}[htbp]
 \centerline{\includegraphics[height=6cm, keepaspectratio]{Figures/test_brf_roc.png}}
@@ -608,7 +613,6 @@ Random Forest algorithm with further under-sampling (RF), with the Balanced Rand
 \cline{2-5}
 \multicolumn{1}{c|}{}    &    BRF &    RF  &    XGB & base \\
 \hline
-Area under the PR curve  &  0.547 &  0.535 &  0.531 & 0.370 \\
 Area under the ROC curve &  0.916 &  0.918 &  0.909 & 0.874 \\
 \hline
 \end{tabular}
@@ -616,10 +620,8 @@ Area under the ROC curve &  0.916 &  0.918 &  0.909 & 0.874 \\
 \end{center}
 \end{table}
 As we can see, the three machine learning models obtain similar performances
-and perform much better than the baseline model. The Balance Random Forest model
-reaches a slightly better area under the PR curve than the two others. The XGBoost
-model has slightly worse performances than the two others in terms of area under
-the ROC curve. 
+and perform much better than the baseline model. The XGBoost
+model has slightly worse performances than the two others.
 
 Figure~\ref{fig:precision-recall} shows the precision-recall curves of the three models.
 
@@ -646,7 +648,7 @@ It shows that despite BRF and RF having similar results on the PR and ROC curves
 \label{fig:pr-threshold}
 \end{figure}
 
-As we can see, the Balanced Random Forest model performs slightly better than the other models.
+As we can see, the Balanced Random Forest model surprisingly does not perform better than the other models.
 It achieves a recall of $85\%$ with a precision of $28\%$, and a false positive rate (FPR) of $13\%$ on the test set.
 
 % ------------------------
@@ -699,13 +701,14 @@ As we can see from the curves, the performances of our models are significantly
 better than those of the base model that exclusively relies on the count of accidents.
 
 \subsection{Test of our Implementation of BRF on the Mammography Dataset}
-As expected, we obtained similar results to the imbalanced-learn library with our implementation of the BRF algorithm. Surprisingly, the BRF algorithm obtained lower areas under the precision-recall curve than the Random Forest algorithm for both implementations. The precision-recall curve explains it, the BRF algorithm had a better precision with high recall values, but a much lower precision with low recall values. For medical diagnosis and road vehicle collision prediction, we usually prefer to have a higher recall with a lower precision, so BRF is more suitable for these use cases. This shows that the measure of the area under the precision-recall curve is not enough to compare the performances of a model on a given problem, it is necessary to look at the curve. 
+As expected, we obtained similar results to the imbalanced-learn library with our implementation of the BRF algorithm. The precision-recall curve shows that the BRF algorithm had a better precision with high recall values, but a much lower precision with low recall values. For medical diagnosis and road vehicle collision prediction, we usually prefer to have a higher recall with a lower precision, so BRF is more suitable for these use cases.
 
 \subsection{Comparison of the Different Models for Road Vehicle Collisions Prediction}
-For the road vehicle collision prediction, the Balance Random Forest algorithm obtained slightly better results than the classical Random Forest algorithm. However, the gain in prediction performance is small. 
-We believe this is caused by the fact that negative examples are not so different from each other and the information they contain is well captured by a single random sub-sample. Like on the mammography dataset, we observe that the BRF algorithm achieved better performances than Random Forest with high recall values. With lower recall values, both Random Forest algorithms had similar performances. The XGBoost algorithm obtained worse results than the two other algorithms. However, it is still interesting because it was much faster to train than Random Forest algorithms. This made the hyper-parameter tuning of the XGBoost algorithm easier and much faster.
+For the road vehicle collision prediction, the Balance Random Forest algorithm obtained slightly better results than the classical Random Forest algorithm. However, the gain in prediction performance is very small. 
+We believe this is caused by the fact that negative examples are not so different from each other and the information they contain is well captured by a single random sub-sample. We observe that the BRF algorithm achieved better performances than Random Forest with high recall values. With lower recall values, both Random Forest algorithms had similar performances. The XGBoost algorithm obtained worse results than the two other algorithms. However, it is still interesting because it was much faster to train than Random Forest algorithms. This made the hyper-parameter tuning of the XGBoost algorithm easier and much faster.
 
 \subsection{Real-world Performances of our Road Vehicle Collision Prediction Model}
+\AH{We need to work on this paragraph}
 As stated previously, the accuracy measure is not a good metric for road accident
 prediction. Indeed, since most examples belong to the negative class, the model which obtains
 the best accuracy is usually the one with the lowest false positive rate. But for rare event
@@ -740,6 +743,8 @@ roads of Montreal. The videos from these cameras could be useful to get an
 estimation of the traffic on the island. 
 These datasets could be used to improve prediction performances.
 However, this type of dataset might not be available for other geographical areas.
+\AH{
+The current model use relatively simple datasets that are probably available for most cities.}
 
 The most important feature is the number of accidents which happened during
 the previous year. While this feature helps a lot to reach useful prediction
@@ -759,7 +764,8 @@ patterns can be used by merging other datasets.
 In this study, we conducted an analysis of road vehicle collisions in the
 city of Montreal using open data provided by Montreal city and the Government of Canada. 
 Using three different datasets, we built road vehicle collision
-prediction models using tree-based algorithms. Our best model can predict $85\%$ of road accidents in the area of Montreal with a false positive rate of $13\%$. 
+prediction models using tree-based algorithms. Our best model can predict $85\%$ of road accidents in the area of Montreal with a false positive rate of $13\%$.
+\AH{Add sentence here to remind that despite the fact that these are not good enough to truly predict accidents, they are still very useful to identify zones and times with higher risks (refer to paragraph in introction about the goal of accident prediction)}
 Our models predict the occurrence of a collision at high space resolution and hourly precision. In other words, it
 means our models can be used to identify the most dangerous road
 segments every hour, in order to take actions to reduce the risk of accidents. 
