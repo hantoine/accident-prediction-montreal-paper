@@ -58,8 +58,10 @@ elaborate new policies.
 
 We tested various machine learning methods to deal with the severe class imbalance inherent
 to accident prediction problems. In particular, we implemented the Balanced Random Forest algorithm, a variant
-of the Random Forest machine learning algorithm in Apache Spark. \AH{Interestingly, we found that in our case,
-Balanced Random Forest does not perform significantly better than Random Forest.}
+of the Random Forest machine learning algorithm in Apache Spark. 
+%AH
+Interestingly, we found that in our case,
+Balanced Random Forest does not perform significantly better than Random Forest.
 
 Experimental results show that 85\% of road vehicle collisions are detected by our model with a false positive rate of 13\%. The examples identified as positive are likely to correspond to high risk situations.
 In addition, we identify the most important predictors of vehicle collisions for the area of Montreal: the count of accidents on the same road segment during previous years, the temperature, the day of the year, the hour and the visibility.
@@ -102,7 +104,11 @@ Open data is made possible by the progress of information technology which allow
 
 With the emergence of open data, governments and municipalities are publishing more and more data. At the same time, the recent progresses in Big Data Analytics have facilitated the processing of large data volumes. This makes it possible to build efficient data models for the study of road accidents.
 
-Accident prediction has been extensively studied in the last decade. \AH{The goal in accident prediction is usually to provide a measure of the risk of accident at different points in time and space.} Several studies used relatively small datasets and performed accident prediction only on a few selected roads\cite{Chang2005, Chang2005b, Lin2015, Theofilatos2017}. More recently, other studies performed accident prediction at a larger scale, such as cities or states, using deep 
+Accident prediction has been extensively studied in the last decade. 
+%AH
+The goal of accident prediction is usually to provide a measure of the risk of accidents at different points in time and space. The occurrence of an accident is the label used to train the model, but the model is not used to predict whether an accident will happen or not. Indeed, it is not possible to accurately predict the occurrence of an accident because it depends on many factors including the driver behavior that cannot be easily measured. Instead, such models are used to identify where and when the risk of accident is significantly higher than average in order to take actions to reduce the risk.
+
+Several studies used relatively small datasets and performed accident prediction only on a few selected roads\cite{Chang2005, Chang2005b, Lin2015, Theofilatos2017}. More recently, other studies performed accident prediction at a larger scale, such as cities or states, using deep 
 learning\cite{QChen2016, Najjar2017, Yuan2018}.
 However, unlike previous studies, they only provide an estimation of the risk of accidents for large areas, i.e., at a coarse spatial resolution. An online article\cite{mediumarticle} presents a study of high resolution road accident prediction in the state of Utah with apparent good performances. This article has inspired us to build a machine-learning model for high-resolution road vehicle collision prediction using public datasets. We used datasets provided by the city of Montreal and the government of Canada as part of their open data initiative. Compared to \cite{mediumarticle}, we have a smaller study area, the island of Montreal, but a much higher prediction resolution. Indeed, the size and precision of our datasets made it possible to predict the occurrence of an accident within an hour on road segments defined by road intersections.
 
@@ -126,7 +132,6 @@ Like many real-world binary classification problems such as medical diagnosis or
 
 In this study, we assembled a dataset containing road vehicle collisions, a dataset describing the Canadian road network, and a dataset containing historical weather information. Using these datasets, we created positive examples, corresponding to the occurrence of a collision, and negative examples, corresponding to the non-occurrence of a collision. For each example, we extracted from the datasets relevant features for accident prediction. Then, we built several prediction models using these examples using various machine learning algorithms. 
 We focused on tree-based machine-learning algorithms because they have already proven their effectiveness compared to classical statistical methods \cite{Chang2005, Chang2005b}. In addition, they allow for easier interpretation than deep learning algorithms. We first used the Random Forest algorithm\cite{Breiman2001}. 
-%BJ I slightly revise the sentence
 We then used the Balanced Random Forest (BRF) algorithm\cite{Chen2004}, a variation of Random Forest specifically designed to better manage data imbalance. 
 As BRF was not yet implemented in Apache Spark, we implemented it ourselves. Finally, we considered the XGBoost algorithm\cite{TChen2016}, a gradient tree boosting algorithm which has been used successfully for many machine learning problems and can handle data imbalance\cite{xgboost_doc}.
 
@@ -141,10 +146,7 @@ meaningful features for road accident prediction,
 
 All the source code used is publicly available \href{https://github.com/big-data-lab-team/accident-prediction-montreal}{on Github} under MIT license.
 
-%BJ J'ai modifié un peu
 Compared to other studies in accident prediction, our study is original by the size of the datasets used and the spatial resolution of the predictions of our models. Previous studies did either use a large dataset (millions of records in total including hundreds of thousands of positive samples \cite{QChen2016}) or predict at a high resolution on one particular road, but no study combines both aspects, which is the hallmark of our study. In terms of prediction resolution, some studies worked on only one road \cite{Chang2005} \cite{Chang2005b} \cite{Lin2015} while some others worked on regions (for example 5km by 5km \cite{QChen2016} or 500m by 500m \cite{Yuan2018}). The road accident dataset we used also covers a wider time range than some studies and is about the maximum time range encountered in the related papers we studied: 7 years \cite{Yuan2018} (against 6 years in our case). For example, other studies have worked on accidents occurring during one year \cite{Chang2005} \cite{Chang2005b} \cite{QChen2016} \cite{Lin2015}. In our opinion, the fact that we predict at a higher resolution allow us to get more useful results.
-
-\AH{Add here a small paragraph on the real goal of accident prediction, how the occurrence of an accident is used as a surrogate label to get a model providing a measure of the risk}
 
 The rest of this paper is organized as follows: Section \ref{sec:relatedwork} presents
 the related work on accident prediction and on learning with imbalanced data, Section \ref{sec:datasetsintegration} presents the datasets we used and
@@ -524,8 +526,10 @@ have been too high, we took a small sample of the dataset. Still, we could
 not test many parameter combinations using this method.
 
 Once we got a first result with grid search we continued manually by
-following a plan, do, check, adjust method. We plotted the precision-recall and ROC curves on the test and training set to understand how the performances of our model could be improved. These curves are obtained by computing the precision, the recall and the false positive rate metrics when varying the threshold used to classify an example as positive. Most classification algorithms provide a measure of the confidence with which an example belongs to a class. We can reduce the threshold on the confidence beyond which we classify the example as positive in order to achieve a higher recall but a lower precision and a higher false positive rate. \AH {In order to obtain a general measure of the performances of a classifier
-at all thresholds, we can use the area under the ROC curve, the area under the Precision-Recall curve however should not be used\cite{flach2015precision}}
+following a plan, do, check, adjust method. We plotted the precision-recall and ROC curves on the test and training set to understand how the performances of our model could be improved. These curves are obtained by computing the precision, the recall and the false positive rate metrics when varying the threshold used to classify an example as positive. Most classification algorithms provide a measure of the confidence with which an example belongs to a class. We can reduce the threshold on the confidence beyond which we classify the example as positive in order to achieve a higher recall but a lower precision and a higher false positive rate.
+%AH
+In order to obtain a general measure of the performances of a classifier
+at all thresholds, we can use the area under the ROC curve. The area under the Precision-Recall curve, however, should not be used\cite{flach2015precision}
 
 
 Interestingly, despite using many trees, our Random Forest classifiers
@@ -707,27 +711,6 @@ As expected, we obtained similar results to the imbalanced-learn library with ou
 For the road vehicle collision prediction, the Balance Random Forest algorithm obtained slightly better results than the classical Random Forest algorithm. However, the gain in prediction performance is very small. 
 We believe this is caused by the fact that negative examples are not so different from each other and the information they contain is well captured by a single random sub-sample. We observe that the BRF algorithm achieved better performances than Random Forest with high recall values. With lower recall values, both Random Forest algorithms had similar performances. The XGBoost algorithm obtained worse results than the two other algorithms. However, it is still interesting because it was much faster to train than Random Forest algorithms. This made the hyper-parameter tuning of the XGBoost algorithm easier and much faster.
 
-\subsection{Real-world Performances of our Road Vehicle Collision Prediction Model}
-\AH{We need to work on this paragraph}
-As stated previously, the accuracy measure is not a good metric for road accident
-prediction. Indeed, since most examples belong to the negative class, the model which obtains
-the best accuracy is usually the one with the lowest false positive rate. But for rare event
-prediction, we usually want a model with a high recall even if it implies a higher false
-positive rate. For these reasons, we decided not to use the accuracy measure. Instead
-we used the precision-recall curve to compare the performances of our models. However, we
-should be careful when using the precision measure on a dataset using a sample of the possible
-negative examples like it is usually the case in accident prediction. Indeed, the precision
-computed on the test set does not correspond to the precision we would obtain in production.
-If the sample of negative examples is representative of the population
-in production, the model will achieve the same false positive rate.
-Because we used a sample of the possible negative examples but all the 
-positive examples in the test set, there will be more cases of false positive in production for the same number of positives. As a consequence, the precision will be much lower.
-
-Since we know the proportion of positive examples in the real world, if we assume that the
-sample of negative examples is representative of the population in production, we can provide
-an estimation of the precision that the model could achieve. There are on average $22,414$ collisions each year and during a year there are a total of $386,412,360$ combinations of hour and road segments. Therefore, in the real-world approximately $0.0058\%$ of examples are positive. With a recall of $85\%$, approximately $0.00493\%$ of examples are true positives and $0.00087\%$ are false negatives. With a false positive rate of $13\%$, approximately $12.99925\%$ of examples are false positives and $86.99495\%$ are true negatives. Therefore, with the real world distribution, our model would likely obtain a precision of
-$0.04\%$. If the goal of our model was to actually predict accidents, this would not be a satisfying precision, but the real goal of accident prediction is to identify when and where the risk of accidents is significantly higher than average in order to take measures. With this precision, the probability of a collision to occur is 6 times higher than average for examples detected as positive. By varying the threshold used by the model, we can choose when to take actions.
-
 % ------------------------
 % ------------------------
 % ------------------------
@@ -743,8 +726,8 @@ roads of Montreal. The videos from these cameras could be useful to get an
 estimation of the traffic on the island. 
 These datasets could be used to improve prediction performances.
 However, this type of dataset might not be available for other geographical areas.
-\AH{
-The current model use relatively simple datasets that are probably available for most cities.}
+%AH
+The current model use datasets that can easily be made available for most cities.
 
 The most important feature is the number of accidents which happened during
 the previous year. While this feature helps a lot to reach useful prediction
@@ -765,7 +748,6 @@ In this study, we conducted an analysis of road vehicle collisions in the
 city of Montreal using open data provided by Montreal city and the Government of Canada. 
 Using three different datasets, we built road vehicle collision
 prediction models using tree-based algorithms. Our best model can predict $85\%$ of road accidents in the area of Montreal with a false positive rate of $13\%$.
-\AH{Add sentence here to remind that despite the fact that these are not good enough to truly predict accidents, they are still very useful to identify zones and times with higher risks (refer to paragraph in introction about the goal of accident prediction)}
 Our models predict the occurrence of a collision at high space resolution and hourly precision. In other words, it
 means our models can be used to identify the most dangerous road
 segments every hour, in order to take actions to reduce the risk of accidents. 
