@@ -141,7 +141,7 @@ The contributions of this paper include:
 meaningful features for road accident prediction,
 \item A high spatial and temporal resolution road accident prediction model for the island of Montreal,
 \item A comparison of three algorithms dealing with data imbalance in the context of road accident prediction,
-\item The implementation of Balanced Random Forest~\cite{Chen2004} in Apache Spark for efficient distributed training.
+\item An implementation of Balanced Random Forest~\cite{Chen2004} in Apache Spark for efficient distributed training.
 \end{itemize}
 
 All the source code used is publicly available \href{https://github.com/big-data-lab-team/accident-prediction-montreal}{on Github} under MIT license.
@@ -399,7 +399,7 @@ managed to reduce the processing times to a reasonable time of a few hours.
 
 We also used clusters from Compute Canada to take maximum advantage of the Apache Spark distributed nature for the generation of examples and the hyper-parameter tuning of our models. We started with the Cedar cluster provided by West Grid and we continued with the new B\'eluga cluster provided by Calcul Québec.
 
-To facilitate tests and development, our \href{https://github.com/big-data-lab-team/accident-prediction-montreal/blob/master/preprocess.py}{pre-processing program} saves intermediate results to disk in the Parquet format. During later execution of the algorithm, if the intermediate results exists on disk, they will be read instead of being recomputed. This made it possible to quickly test new features and different parameters by recomputing only the required parts of the dataset.
+To facilitate tests and development, our \href{https://github.com/big-data-lab-team/accident-prediction-montreal/blob/master/src/preprocess.py}{pre-processing program} saves intermediate results to disk in the Parquet format. During later execution of the algorithm, if the intermediate results exists on disk, they will be read instead of being recomputed. This made it possible to quickly test new features and different parameters by recomputing only the required parts of the dataset.
 
 \section{Model Development}
 \label{sec:modeldev}
@@ -499,7 +499,7 @@ hour difference between these two values. Cyclical encoding allows this fact to 
 With cyclical encoding, we compute two features, the first one is
 the cosine of the original feature scaled between 0 and 2$\pi$, and the second
 one is the sine of the original feature scaled between 0 and 2$\pi$.
-In addition to these basic date features, \href{https://github.com/big-data-lab-team/accident-prediction-montreal/blob/master/solar\_features.py}{we computed} an approximation
+In addition to these basic date features, \href{https://github.com/big-data-lab-team/accident-prediction-montreal/blob/master/src/solar\_features.py}{we computed} an approximation
 of the solar elevation using the hour of the day, the day of the year
 and the GPS coordinates. The solar elevation is the angle 
 between the horizon and the sun. Note that it is of interest, because it is
@@ -663,8 +663,10 @@ It achieves a recall of $85\%$ with a precision of $28\%$, and a false positive 
 
 With a
 feature importance of $67\%$, the number of accidents which occurred on the
-road segment during the previous years is clearly the most useful feature, which
-is not surprising. Figure~\ref{feature importances} presents the
+road segment during the previous years is clearly the most useful feature. 
+%AH
+This shows that accidents are concentrated on specific roads.
+Figure~\ref{feature importances} presents the
 importance of the other features as reported by the Balanced Random Forest
 algorithm. As we can see, the next most important feature is the temperature. 
 Then, the day of the year, the cosine of the hour of the day, which separates day from night,
@@ -673,7 +675,12 @@ the following features of importance. The remaining features have almost
 the same importance, except the street type which
 is significantly less important.
 
-We believe that the road features like the street length, the street level and the street type have a lower importance because the accident count already provides a lot of information on the dangerousness of a road segment. Surprisingly, the risky weather feature is one of the least important ones. We believe that the temperature, the visibility, the humidity and the atmospheric pressure contains this information in a way that is easier to learn. 
+We believe that the road features like the street length, the street level and the street type have a lower importance because the accident count already provides a lot of information on the dangerousness of a road segment. Surprisingly, the risky weather feature is one of the least important ones. 
+%AH
+This suggests that our intuition on what define risky weather is limited. 
+
+
+We believe that the temperature, the visibility, the humidity and the atmospheric pressure contains this information in a way that is easier to learn. 
 
 As compared to the count of accidents, the other features seem to have almost no
 importance, however the performance of the model decreases significantly if we
@@ -715,7 +722,7 @@ We believe this is caused by the fact that negative examples are not so differen
 % ------------------------
 % ------------------------
 
-\subsection{Future work}
+\subsection{Future Work}
 
 We believe that a better performance could be reached by adding more features
 from other datasets. For the city of Montreal, we identified two
