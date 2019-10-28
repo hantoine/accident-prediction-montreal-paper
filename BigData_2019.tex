@@ -602,9 +602,10 @@ evaluate our models, we used a test set containing the last two years of our
 dataset. The model was trained on the 4 previous years and used only data
 from these years. For instance, the ``count\_accident" feature contains only
 the count of accidents occurring from 2012 to 2016 on the road segment.
+%AH
 In addition to the three models built using tree-based machine learning algorithms,
-we created a very basic model using only the count of accidents of the road segment.
-We used the results of this model as a baseline. 
+we created a simple baseline model. This model is very basic in the sense that it uses
+only the count of accidents of the road segment.
 The probability of accidents given 
 by this model for an example whose road segment has a count of accidents of $n$, is the percentage
 of positive examples among the examples with a count of accidents higher than $n$.
