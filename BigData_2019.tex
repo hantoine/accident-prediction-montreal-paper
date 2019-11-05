@@ -721,7 +721,7 @@ As stated previously, the accuracy measure is not a good metric for road acciden
 prediction. Indeed, since most examples belong to the negative class, the model which obtains
 the best accuracy is usually the one with the lowest false positive rate. But for rare event
 prediction, we usually want a model with a high recall even if it implies a higher false
-positive rate. For these reasons, we decided not to use the accuracy measure. Instead
+positive rate. This is especially true in accident prediction, because false positives can correspond to high-risk situations that we probably want to detect too. For these reasons, we decided not to use the accuracy measure. Instead
 we used the precision-recall curve to compare the performances of our models. However, we
 should be careful when using the precision measure on a dataset using a sample of the possible
 negative examples like it is usually the case in accident prediction. Indeed, the precision
