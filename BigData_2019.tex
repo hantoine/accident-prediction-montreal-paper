@@ -33,12 +33,10 @@
 \title{High-Resolution Road Vehicle Collision Prediction for the City of Montreal}
 \author{
 \IEEEauthorblockN{Antoine Hébert$^*$, Timothée Guédon$^*$,
-%\IEEEauthorblockN{Antoine Hébert, Timothée Guédon,
 Tristan Glatard, Brigitte Jaumard}
 Department of Computer Science and Software Engineering \\
 Concordia University, Montréal, Québec, Canada\\
 $^*$ These authors have contributed equally
-
 }
 
 \maketitle
@@ -83,7 +81,7 @@ Road accidents, Big data applications, Data analysis, Machine learning, Classifi
 
 The World Health Organization describes the road traffic system as the most
 complex and the most dangerous system with which people have to deal every
-day~\cite{Peden2004}. In the last few years, the number of road traffic deaths in the world climbed, reaching 1.35 million in 2016\cite{road_safety_report}. More particularly in Quebec, Canada, 359 people were killed in 2018, more than a thousand were seriously injured and tens of thousands have suffered small injuries\cite{saaq}.
+day~\cite{Peden2004}. In the last few years, the number of road traffic deaths in the world climbed, reaching 1.35 million in 2016~\cite{road_safety_report}. More particularly in Quebec, Canada, 359 people were killed in 2018, more than a thousand were seriously injured and tens of thousands have suffered small injuries\cite{saaq}.
 
 Meanwhile, Big Data Analytics has emerged in the last decade as a set of techniques allowing data scientists to extract meaningful information from large amounts of complex and heterogeneous data \cite{Gandomi2015}. In the context of accident prediction, such techniques provide insights on the conditions leading to an increased risk of road accidents, which in return, can be used to develop traffic-related policies and prevention operations. 
 
@@ -110,7 +108,7 @@ Accident prediction has been extensively studied in the last decade.
 %AH
 The goal of accident prediction is usually to provide a measure of the risk of accidents at different points in time and space. The occurrence of an accident is the label used to train the model, but the model is not used to predict whether an accident will happen or not. Indeed, it is not possible to accurately predict the occurrence of an accident because it depends on many factors including the driver behavior that cannot be easily measured. Instead, such models are used to identify where and when the risk of accident is significantly higher than average in order to take actions to reduce the risk.
 
-Several studies used relatively small datasets and performed accident prediction only on a few selected roads\cite{Chang2005, Chang2005b, Lin2015, Theofilatos2017}. More recently, other studies performed accident prediction at a larger scale, such as cities or states, using deep 
+Several studies used relatively small datasets and performed accident prediction only on a few selected roads~\cite{Chang2005, Chang2005b, Lin2015, Theofilatos2017}. More recently, other studies performed accident prediction at a larger scale, such as cities or states, using deep
 learning\cite{QChen2016, Najjar2017, Yuan2018}.
 However, unlike previous studies, they only provide an estimation of the risk of accidents for large areas, i.e., at a coarse spatial resolution. An online article\cite{mediumarticle} presents a study of high resolution road accident prediction in the state of Utah with apparent good performances. This article has inspired us to build a machine-learning model for high-resolution road vehicle collision prediction using public datasets. We used datasets provided by the city of Montreal and the government of Canada as part of their open data initiative. Compared to \cite{mediumarticle}, we have a smaller study area, the island of Montreal, but a much higher prediction resolution. Indeed, the size and precision of our datasets made it possible to predict the occurrence of an accident within an hour on road segments defined by road intersections.
 
@@ -717,6 +715,33 @@ As expected, we obtained similar results to the imbalanced-learn library with ou
 \subsection{Comparison of the Different Models for Road Vehicle Collisions Prediction}
 For the road vehicle collision prediction, the Balance Random Forest algorithm obtained slightly better results than the classical Random Forest algorithm. However, the gain in prediction performance is very small. 
 We believe this is caused by the fact that negative examples are not so different from each other and the information they contain is well captured by a single random sub-sample. We observe that the BRF algorithm achieved better performances than Random Forest with high recall values. With lower recall values, both Random Forest algorithms had similar performances. The XGBoost algorithm obtained worse results than the two other algorithms. However, it is still interesting because it was much faster to train than Random Forest algorithms. This made the hyper-parameter tuning of the XGBoost algorithm easier and much faster.
+
+\subsection{Real-world Performances of our Road Vehicle Collision Prediction Model}
+As stated previously, the accuracy measure is not a good metric for road accident
+prediction. Indeed, since most examples belong to the negative class, the model which obtains
+the best accuracy is usually the one with the lowest false positive rate. But for rare event
+prediction, we usually want a model with a high recall even if it implies a higher false
+positive rate. For these reasons, we decided not to use the accuracy measure. Instead
+we used the precision-recall curve to compare the performances of our models. However, we
+should be careful when using the precision measure on a dataset using a sample of the possible
+negative examples like it is usually the case in accident prediction. Indeed, the precision
+computed on the test set does not correspond to the precision we would obtain in production.
+If the sample of negative examples is representative of the population
+in production, the model will achieve the same false positive rate.
+Because we used a sample of the possible negative examples but all the
+positive examples in the test set, there will be more cases of false positive in production for the same number of positives. As a consequence, the precision will be much lower.
+
+Since we know the proportion of positive examples in the real world, if we assume that the
+sample of negative examples is representative of the population in production, we can provide
+an estimation of the precision that the model could achieve. There are on average $22,414$ collisions each year and during a year there are a total of $386,412,360$ combinations of hour and road segments. Therefore, in the real-world approximately $0.0058\%$ of examples are positive. With a recall of $85\%$, approximately $0.00493\%$ of examples are true positives and $0.00087\%$ are false negatives. With a false positive rate of $13\%$, approximately $12.99925\%$ of examples are false positives and $86.99495\%$ are true negatives. Therefore, with the real world distribution, our model would likely obtain a precision of
+$0.04\%$. If the goal of our model was to actually predict accidents, this would not be a satisfying precision, but the real goal of accident prediction is to identify when and where the risk of accidents is significantly higher than average in order to take measures. With this precision, the probability of a collision to occur is 6 times higher than average for examples detected as positive. By varying the threshold used by the model, we can choose when to take actions.
+
+
+\subsection{Reproducibility of the study} %Tim
+All the figures can be reproduced with the Jupyter notebooks from the \href{https://github.com/big-data-lab-team/accident-prediction-montreal/tree/master/notebooks}{'notebooks'} folder on the project's Github repository. More precise information about which notebook generated which figure can be found in the \href{https://github.com/big-data-lab-team/accident-prediction-montreal/blob/master/README.md }{'readme'} file of the same repository. The functions necessary for the datasets pre-processing and the machine learning models used for the study are available in the \href{https://github.com/big-data-lab-team/accident-prediction-montreal/tree/master/src}{src} (sources) folder.
+
+The National Road Network and the Historical Climate datasets used in this study are open datasets from the government of Canada. One can potentially reproduce the study for any other Canadian city given that the city provides open data on vehicle collisions including the date, time and localization of such collisions in sufficient amount. For example, the city of Toronto seems to be a good candidate with 11 years of vehicle collisions open data available through the \href{http://data.torontopolice.on.ca/datasets/automobile}{``Automobile"} dataset provided by the Toronto Police Service. This dataset contains the date, time and localization of the accidents. The localization information includes the name of the street as well as latitude and longitude positions. The ``Automobile" dataset also contains several features that could be of great interest for a classification model like information on the actors involved in the accident: their average age, whether they consumed alcohol or whether they have a disability. National road network information and historical climate information tends to be easily found for many countries which would allow this study to also be reproducible in other countries. For example historical climate information for the United States can be found in the \href{https://data.ess-dive.lbl.gov/view/doi:10.3334/CDIAC/CLI.NDP019}{U.S. Historical Climatology Network} dataset and road network information seems to be available in the \href{https://catalog.data.gov/dataset/usgs-national-transportation-dataset-ntd-downloadable-data-collectionde7d2}{USGS National Transportation Dataset}.
+
 
 % ------------------------
 % ------------------------
