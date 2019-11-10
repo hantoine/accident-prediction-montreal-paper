@@ -95,7 +95,7 @@ Meanwhile, Big Data Analytics has emerged in the last decade as a set of techniq
 
 \subsection{Open Data}
 
-Governments, states, province and municipalities collect and manage data for their internal operations. In the last decade, an open data movement has emerged that encourages governments to make the data they collect available to the public as ``open data".
+Governments, states, provinces and municipalities collect and manage data for their internal operations. In the last decade, an open data movement has emerged that encourages governments to make the data they collect available to the public as ``open data".
 Open data is defined as ``structured data that is machine-readable, freely shared, used and built on without restrictions"~\cite{opendata101}. Open data should be easily accessible and published under terms that permit re-use and redistribution by anyone and for any purpose.
 
 Open data is made possible by the progress of information technology which allows the sharing of large amounts of data. In 2009, Canada, USA, UK and New Zealand, announced new initiatives towards opening up public information. It is in this spirit that the Government of Canada launched its first-generation of the Open Data Portal in 2011~\cite{opendata101}, giving access to several public datasets. In 2012, the city of Montreal launched its own open data portal.
@@ -110,15 +110,20 @@ With the emergence of open data, governments and municipalities are publishing m
 
 Accident prediction has been extensively studied in the last decade. 
 %AH
-The goal of accident prediction is usually to provide a measure of the risk of accidents at different points in time and space. The occurrence of an accident is the label used to train the model, but the model is not used to predict whether an accident will happen or not. Indeed, it is not possible to accurately predict the occurrence of an accident because it depends on many factors including the driver behavior that cannot be easily measured. Instead, such models are used to identify where and when the risk of accident is significantly higher than average in order to take actions to reduce the risk.
+The goal of accident prediction is usually to provide a measure of the risk of accidents at different points in time and space. 
+The occurrence of an accident is the label used to train the model, and the proposed model can be used to identify where and when the risk of accident is significantly higher than average in order to take actions to reduce that risk. 
+Note that the model cannot be used to predict whether an accident will occur or not. 
+Indeed, in order to accurately predict the occurrence of an accident, additional data would be needed: the occurrence of an accident depends on many factors, including driver behavior, that cannot be easily measured. 
 
 Several studies used relatively small datasets and performed accident prediction only on a few selected roads~\cite{Chang2005, Chang2005b, Lin2015, Theofilatos2017}. More recently, other studies performed accident prediction at a larger scale, such as cities or states, using deep
 learning\cite{QChen2016, Najjar2017, Yuan2018}.
-However, unlike previous studies, they only provide an estimation of the risk of accidents for large areas, i.e., at a coarse spatial resolution. An online article\cite{mediumarticle} presents a study of high resolution road accident prediction in the state of Utah with apparent good performances. This article has inspired us to build a machine-learning model for high-resolution road vehicle collision prediction using public datasets. We used datasets provided by the city of Montreal and the government of Canada as part of their open data initiative. Compared to \cite{mediumarticle}, we have a smaller study area, the island of Montreal, but a much higher prediction resolution. Indeed, the size and precision of our datasets made it possible to predict the occurrence of an accident within an hour on road segments defined by road intersections.
+However, unlike previous studies, they only provide an estimation of the risk of accidents for large areas, i.e., at a coarse spatial resolution. An online article\cite{mediumarticle} presents a study of high resolution road accident prediction in the state of Utah with good performances (influenced by a set of data forced to be balanced). This article has inspired us to build a machine-learning model for high-resolution road vehicle collision prediction using public datasets. We used datasets provided by the city of Montreal and the government of Canada as part of their open data initiative. Compared to \cite{mediumarticle}, we have a smaller study area, the island of Montreal, but a much higher prediction resolution. Indeed, the size and precision of our datasets made it possible to predict the occurrence of an accident within an hour on road segments defined by road intersections.
 
-Road vehicle collision prediction can be seen: (1) as a regression problem: predicting the risk of accidents, which can be translated into different ways, or (2) as a binary classification problem: predicting whether an accident will occur. 
+Road vehicle collision prediction can be seen as: 
+(1) a regression problem: predicting the risk of accidents, which can be translated into different ways, or 
+(2) a binary classification problem: predicting whether an accident will occur. 
 We choose to approach it as a classification problem because this simpler approach facilitates the interpretation and comparison of results.
-Moreover, classification models also output a probability measure which can be seen as the risk of accidents.
+In addition, classification models also provide a measure of probability that can be considered as the risk of an accident.
 
 % ------------------------
 % ------------------------
@@ -150,7 +155,9 @@ meaningful features for road accident prediction,
 
 All the source code used is publicly available \href{https://github.com/big-data-lab-team/accident-prediction-montreal}{on Github} under MIT license.
 
-Compared to other studies in accident prediction, our study is original by the size of the datasets used and the spatial resolution of the predictions of our models. Previous studies did either use a large dataset (millions of records in total including hundreds of thousands of positive samples \cite{QChen2016}) or predict at a high resolution on one particular road, but no study combines both aspects, which is the hallmark of our study. In terms of prediction resolution, some studies worked on only one road \cite{Chang2005} \cite{Chang2005b} \cite{Lin2015} while some others worked on regions (for example 5km by 5km \cite{QChen2016} or 500m by 500m \cite{Yuan2018}). The road accident dataset we used also covers a wider time range than some studies and is about the maximum time range encountered in the related papers we studied: 7 years \cite{Yuan2018} (against 6 years in our case). For example, other studies have worked on accidents occurring during one year \cite{Chang2005} \cite{Chang2005b} \cite{QChen2016} \cite{Lin2015}. In our opinion, the fact that we predict at a higher resolution allow us to get more useful results.
+Compared to other studies in accident prediction, our study is original by the size of the datasets used and the spatial resolution of the predictions of our models. 
+Previous studies did either use a large dataset (millions of records in total including hundreds of thousands of positive samples \cite{QChen2016}) or predict at a high resolution on one particular road, but no study combines both aspects, which is the hallmark of our study. In terms of prediction resolution, some studies worked on only one road \cite{Chang2005} \cite{Chang2005b} \cite{Lin2015} while some others worked on regions (for example 5km by 5km \cite{QChen2016} or 500m by 500m \cite{Yuan2018}). The road accident dataset we used also covers a wider time range than some studies and is about the maximum time range encountered in the related papers we studied: 7 years \cite{Yuan2018} (against 6 years in our case). For example, other studies have worked on accidents occurring during one year \cite{Chang2005} \cite{Chang2005b} \cite{QChen2016} \cite{Lin2015}. 
+In our opinion, predicting at a higher resolution yields more useful results.
 
 The rest of this paper is organized as follows: Section \ref{sec:relatedwork} presents
 the related work on accident prediction and on learning with imbalanced data, Section \ref{sec:datasetsintegration} presents the datasets we used and
@@ -181,15 +188,13 @@ of accidents during a year on road segments of a major freeway in
 Taiwan. The dataset contained data from the years 1997 and 1998, which
 resulted in 1,338 accidents. The ANN achieved slightly better results than negative 
 binomial regression, with
-an accuracy of $61.4\%$. On the same dataset, Chang et
-al.\cite{Chang2005b} also used decision trees for accident prediction,
+an accuracy of $61.4\%$. On the same dataset, Chang \textit{et al.} \cite{Chang2005b} also used decision trees for accident prediction,
  to get more insights on the important variables for accident
 prediction. It appeared that the average daily traffic and the number of
 days with precipitation were the most relevant features. The decision tree
 reached an accuracy of $52.6\%$. 
 
-Lin et
-al.~\cite{Lin2015} compared the performances of Frequent Pattern trees\cite{Han2004} with
+Lin \textit{et al.} ~\cite{Lin2015} compared the performances of Frequent Pattern trees\cite{Han2004} with
 that of Random Forest for feature selection. They used $k$-nearest-neighbor
 and Bayesian networks for real-time accident prediction on a segment of
 a highway. Using the mean and sometimes the standard deviation of the weather condition, the visibility, the traffic volume, the traffic speed, and the occupancy measured during the last few minutes their models predict the occurrence of an accident. They obtained
@@ -207,12 +212,12 @@ variation of the flow per lane, the speed, and the occupancy.
 In addition, many
 studies aim at predicting the severity of an accident using various
 information from the accident in order to understand what causes an
-accident to be fatal. Chong et al.\cite{Chong2005} used decision trees,
+accident to be fatal. Chong \textit{et al.} \cite{Chong2005} used decision trees,
 neural networks and a hybrid model using a decision tree and a neural
 network. They obtained the best performances with the hybrid model which
 reached an accuracy of $90\%$ for the prediction of fatal injuries. They
 identified that the seat belt usage, the light conditions and the alcohol
-usage of the driver are the most important features. Abellán et al.
+usage of the driver are the most important features. Abellán \textit{et al.}
 \cite{Abellan2013} also studied traffic accident severity by looking at the
 decision rules of a decision tree using a dataset of 1,801 highway
 accidents. They found that the type and cause of the accident, the light
@@ -228,21 +233,21 @@ usually using deep learning models. Deep learning models can be trained
 online so that the whole dataset does not need to stay in memory. This
 makes it easier to deal with big datasets.
 
-Chen et al. \cite{QChen2016} used human mobility information coming from
+Chen \textit{et al.} \cite{QChen2016} used human mobility information coming from
 mobile phone GPS data and historical accident records to build a model for
 real-time prediction of traffic accident risk in areas of 500 by 500
 meters. The risk level of an area is defined as the sum of the severity of
 accidents that occurred in the area during the hour. Their model achieves
 a Root Mean-Square Error (RMSE) of $1.0$ accident severity. They compared the performance of their deep learning
 model with the performances of a few classical machine learning
-algorithms: a Decision Tree, a Logistic Regression and a Support Vector
+algorithms: Decision Tree, Logistic Regression and Support Vector
 Machine (SVM), which all got worse RMSE values of respectively $1.41$,
 $1.41$ and $1.73$. We note that they have not tried the Random
 Forest algorithm while it usually has good prediction performances. Najjar et
 al. \cite{Najjar2017}, trained a convolutional neural network using
 historical accident data and satellite images to predict the risk of
 accidents on an intersection using the satellite image of the intersection.
-Their best model reaches an accuracy of $73\%$. Yuan et al. \cite{Yuan2018}
+Their best model reaches an accuracy of $73\%$. Yuan \textit{et al.} \cite{Yuan2018}
 used an ensemble of Convolutional Long Short-Term Memory (LSTM) neural
 networks for road accident prediction in the state of Iowa. Each neural
 network of the ensemble is predicting on a different spatial zone so that
@@ -255,7 +260,7 @@ a day in an area of 25 square kilometers.
 
 These more recent studies are particularly interesting because they achieve
 good results for the prediction of road accidents in time and space in
-larger areas than previous studies who focused on a few roads. But unlike
+larger areas than previous studies which focused on a few roads. But unlike
 previous studies, they only provide an estimation of the risk of accidents
 for large areas, i.e., at a coarse spatial resolution.
 In our study, we decided to focus on urban accidents
@@ -300,7 +305,7 @@ majority class is performed in order to obtain a balanced sample. Intuitively,
 Balanced Random Forest is an adaptation of random under-sampling of the majority
 class making use of the fact that Random Forest is an ensemble method.
 While none of the methods is clearly better than the other in terms of predictive
-power, BRF has an advantage in terms of training speed because of the under-sampling. Interestingly, Wallace et al.~\cite{Wallace2011} present a theoretical analysis of the data
+power, BRF has an advantage in terms of training speed because of the under-sampling. Interestingly, Wallace \textit{et al.}~\cite{Wallace2011} present a theoretical analysis of the data
 imbalance problem and suggest to use methods similar to Balanced Random Forest.
 
 % ------------------------
@@ -470,7 +475,7 @@ To create this feature, we first created a binary variable set to 1 if the
 following phenomena are observed during the hour at a given station:
 freezing rain, freezing drizzle, snow, snow grains, ice crystals, ice pellets,
 ice pellet showers, snow showers, snow pellets, ice fog, blowing snow, freezing
-fog. We selected these phenomena because we think they increase the risk of
+fog. We selected these phenomena because they are likely to increase the risk of
 accidents. Then we computed the exponential moving average of this binary
 variable over time for each station in order to model the fact that
 these phenomena have an impact after they stop being observed and a greater
@@ -486,8 +491,8 @@ In addition, road segments are classified into three different levels in
 the dataset depending on their importance in the road network: we created a
 categorical feature from this information. For these two categorical
 features, we encoded them as suggested in The Elements of Statistical
-Learning~\cite{elementsofstat} in Section 9.2.4, instead of using one-hot
-encoding which would create an exponential number of possible splits: we indexed the
+Learning~\cite{elementsofstat} in Section 9.2.4. Indeed, instead of using one-hot
+encoding which would create an exponential number of possible splits, we indexed the
 categorical variable ordered by the proportion of the examples belonging to
 the given category, which are positive samples. This encoding guarantees 
 optimal splits on these categorical variables. Lastly, we added a
@@ -511,26 +516,27 @@ linked to the luminosity which is relevant for road accident prediction.
 
 \subsection{Identifying the most Important Features}
 
-Random Forest measure feature importance by computing the total
+Random Forest measures feature importance by computing the total
 decrease in impurity of all splits that use the feature, weighted by the
 number of samples. This feature importance measure is not perfect for
 interpretability since it is biased toward non-correlated variables, but it
 helps selecting the most useful features for the prediction. 
-Random Forest usually perform better when irrelevant features are removed.
+Random Forest usually performs better when irrelevant features are removed.
 Therefore, we removed the features wind direction, wind speed, dew
 point temperature, wind chill, hmdx index and day of month which had a
 much lower feature importance. This improved the performances of the model.
 
 \subsection{Hyper-Parameter Tuning}
 
-To determine the optimal hyper parameters, we first performed
+To determine the optimized hyper parameters, we first performed
 automatic hyper-parameter tuning by performing a grid search 
 with cross-validation. Because the processing times on the whole dataset would
 have been too high, we took a small sample of the dataset. Still, we could
 not test many parameter combinations using this method.
 
 Once we got a first result with grid search we continued manually by
-following a plan, do, check, adjust method. We plotted the precision-recall and ROC curves on the test and training set to understand how the performances of our model could be improved. These curves are obtained by computing the precision, the recall and the false positive rate metrics when varying the threshold used to classify an example as positive. Most classification algorithms provide a measure of the confidence with which an example belongs to a class. We can reduce the threshold on the confidence beyond which we classify the example as positive in order to achieve a higher recall but a lower precision and a higher false positive rate.
+following a plan, do, check, adjust method. We plotted the precision-recall and ROC curves on the test and training set to understand how the performances of our model could be improved. These curves are obtained by computing the precision, the recall and the false positive rate metrics when varying the threshold used to classify an example as positive. Most classification algorithms provide a measure of the confidence with which an example belongs to a class. 
+We can reduce the threshold on the confidence beyond which we classify the example as positive in order to obtain a higher recall but a lower precision and a higher false positive rate.
 %AH
 In order to obtain a general measure of the performances of a classifier
 at all thresholds, we can use the area under the ROC curve. The area under the Precision-Recall curve, however, should not be used\cite{flach2015precision}
@@ -613,7 +619,7 @@ by this model for an example whose road segment has a count of accidents of $n$,
 of positive examples among the examples with a count of accidents higher than $n$.
 
 Table~\ref{table:summary} presents the results obtained on the test set with the classical
-Random Forest algorithm with further under-sampling (RF), with the Balanced Random Forest algorithm (BRF), with the XGBoost algorithm (XGB), and with the baseline model (base). The values of the hyper-parameter we used and more details about the results are available on the \href{https://github.com/big-data-lab-team/accident-prediction-montreal/tree/master/results}{Github repository of the project}.
+Random Forest algorithm with further under-sampling (RF), with the Balanced Random Forest algorithm (BRF), with the XGBoost algorithm (XGB), and with the baseline model (base). The values of the hyper-parameters we used and more details about the results are available on the \href{https://github.com/big-data-lab-team/accident-prediction-montreal/tree/master/results}{Github repository of the project}.
 
 \begin{table}[htbp]
 \caption{Result Summary}
@@ -648,12 +654,12 @@ Figure~\ref{fig:roc} shows the Receiver operating characteristic (ROC) curves of
 \label{fig:roc}
 \end{figure}
 
-Figure~\ref{fig:pr-threshold} shows the precision and the recall as a function of the threshold for BRF and RF algorithms.
-It shows that despite BRF and RF having similar results on the PR and ROC curves, they have different behaviors. For the same threshold value, BRF has a higher recall but a lower precision than RF.
+Figure~\ref{fig:pr-threshold} shows the precision and the recall as a function of the threshold values for BRF and RF algorithms.
+It shows that despite BRF and RF having similar results on the PR and ROC curves, they have different behaviors. For an identical threshold value, BRF has a higher recall but a lower precision than RF.
 
 \begin{figure}[htbp]
 \centerline{\includegraphics[height=6cm, keepaspectratio]{Figures/pr_threshold.png}}
-\caption{Vehicle Collision Prediction: Precision and Recall as a Function of the Threshold}
+\caption{Vehicle Collision Prediction: Precision and Recall as a Function of the Threshold Values}
 \label{fig:pr-threshold}
 \end{figure}
 
@@ -682,7 +688,7 @@ is significantly less important.
 
 We believe that the road features like the street length, the street level and the street type have a lower importance because the accident count already provides a lot of information on the dangerousness of a road segment. Surprisingly, the risky weather feature is one of the least important ones. 
 %AH
-This suggests that our intuition on what define risky weather is limited. 
+This suggests that or definition of risky weather may need to be revisited.
 
 As compared to the count of accidents, the other features seem to have almost no
 importance, however the performance of the model decreases significantly if we
@@ -704,9 +710,10 @@ remove one of them.
 With areas under the ROC curve of more than $90\%$, the performances of our models are good.
 However, they mostly rely on the count of previous accidents on the road segment as we can see from the feature importance of the accident count feature and the performance of the base model.
 This is not an issue for accident prediction, but it does not help to 
-understand why these roads are particularly dangerous. We believe that
-this feature is even more useful because we do not have information
-about the average traffic volume for each road. Therefore, this feature does
+understand why these roads are particularly dangerous. 
+We believe that this feature is even more useful because we do not have information
+about the average traffic volume for each road. 
+Therefore, this feature does
 not only inform the machine learning algorithm about the dangerousness of a road
 segment but also indirectly about the number of vehicles using this road.
 Nonetheless, the performance of our models does not only rely on this feature.
@@ -742,9 +749,13 @@ $0.04\%$. If the goal of our model was to actually predict accidents, this would
 
 
 \subsection{Reproducibility of the study} %Tim
+
 The results from this study can be reproduced using the \href{https://github.com/big-data-lab-team/accident-prediction-montreal}{Github repository} of the project. The \href{https://github.com/big-data-lab-team/accident-prediction-montreal/blob/master/README.md }{'readme'} file provides more information on how to create training examples from the datasets and how to train the models. All the figures can be reproduced with the \href{https://github.com/big-data-lab-team/accident-prediction-montreal/tree/master/notebooks}{Jupyter notebooks} available on the same repository.
 
-The National Road Network and the Historical Climate datasets used in this study are open datasets from the government of Canada. One can potentially reproduce the study for any other Canadian city as long as the the city provides open data on vehicle collisions including the date, time and localization of such collisions in sufficient amount. For example, the city of Toronto seems to be a good candidate with 11 years of vehicle collisions open data available through the \href{http://data.torontopolice.on.ca/datasets/automobile}{``Automobile"} dataset provided by the Toronto Police Service. This dataset contains the date, time and localization of the accidents. National road network information and historical climate information tends to be easily found for many countries which would allow this study to also be reproducible in other countries. For example historical climate information for the United States can be found in the \href{https://data.ess-dive.lbl.gov/view/doi:10.3334/CDIAC/CLI.NDP019}{U.S. Historical Climatology Network} dataset and road network information seems to be available in the \href{https://catalog.data.gov/dataset/usgs-national-transportation-dataset-ntd-downloadable-data-collectionde7d2}{USGS National Transportation Dataset}.
+The National Road Network and the Historical Climate datasets used in this study are open datasets from the government of Canada. 
+One can potentially reproduce the study for any other Canadian city as long as the the city provides open data on vehicle collisions including the date, time and localization of such collisions in sufficient amount. 
+For example, the city of Toronto seems to be a good candidate with 11 years of vehicle collisions open data available through the \href{http://data.torontopolice.on.ca/datasets/automobile}{``Automobile"} dataset provided by the Toronto Police Service. 
+The latter dataset contains the date, time and localization of the accidents. National road network information and historical climate information tends to be easily found for many countries which would allow this study to also be reproducible in other countries. For example historical climate information for the United States can be found in the \href{https://data.ess-dive.lbl.gov/view/doi:10.3334/CDIAC/CLI.NDP019}{U.S. Historical Climatology Network} dataset and road network information seems to be available in the \href{https://catalog.data.gov/dataset/usgs-national-transportation-dataset-ntd-downloadable-data-collectionde7d2}{USGS National Transportation Dataset}.
 
 
 % ------------------------
@@ -759,7 +770,7 @@ particularly interesting datasets: a dataset with the location and dates of
 construction work on roads, and a dataset with the population density.
 In addition, Transport Qu\'ebec gives access to cameras monitoring the main
 roads of Montreal. The videos from these cameras could be useful to get an
-estimation of the traffic on the island. 
+estimation of the traffic in the streets/roads on the island. 
 These datasets could be used to improve prediction performances.
 However, this type of dataset might not be available for other geographical areas.
 %AH
@@ -774,7 +785,7 @@ take measure to reduce the number of accidents in Montreal. This can also
 be useful to improve our current accident prediction model, if the detected
 patterns can be used by merging other datasets.
 
-Lastly, it would be interesting to analyze why BRF did not perform better for this problem in order to understand under which conditions it helps deal with data imbalance.
+Lastly, it would be interesting to analyze why BRF did not perform better for this problem in order to understand under which conditions it helps to deal with data imbalance.
 
 % ------------------------
 % ------------------------
